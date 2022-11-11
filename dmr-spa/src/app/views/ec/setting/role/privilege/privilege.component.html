@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-info card-outline">
+      <div class="card-header">
+        <h3 class="card-title">
+          <i class="fas fa-edit"></i>
+          Sample privilege groups
+        </h3>
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-center align-items-center">
+          <div *ngFor="let item of data" class="mr-5 my-2">
+            <ejs-checkbox [label]="item.name" cssClass="e-primary" (change)='changeRole($event, item)'></ejs-checkbox>
+          </div>
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+    <div class="card card-info card-outline">
+      <div class="card-header">
+        <h3 class="card-title">
+          <i class="fa fa-user-circle"></i>
+          The privilege
+        </h3>
+      </div>
+        <div class="my-3 d-flex justify-content-center align-items-center">
+          <button class="btn btn-primary mr-2" (click)='checkedAll()'>
+            <i class="fa fa-check-square"></i>
+            Checked All
+          </button>
+          <button class="btn btn-primary" (click)='uncheckedAll()'>
+            <i class="fa fa-window-close"></i>
+            Unchecked All
+          </button>
+
+          <button class="btn btn-primary mx-2" (click)='collapseAll()'>
+            <i class="fa fa-arrows-alt"></i>
+            Collapse All
+          </button>
+
+          <button class="btn btn-primary" (click)='expandAll()'>
+            <i class="fa fa-expand"></i>
+            Expand All
+          </button>
+
+        </div>
+      <div class="d-flex">
+        <div class="p-2 flex-fill align-items-center" *ngFor="let item of modules">
+          <h3 class="d-flex justify-content-center">{{item.moduleName}}</h3>
+          <hr>
+          <ejs-treeview
+            #treeview
+            [checkedNodes]='item.checkedNodes'
+            (created)='created($event)'
+            (nodeChecked)='nodeChecked($event)'
+            (nodeClicked)='nodeCheck($event)'
+            (keyPress)='nodeCheck($event)'
+            showCheckBox="true" [fields]='item.fields'></ejs-treeview>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-center">
+      <button (click)='back()' class="btn btn-info mr-2">
+        <i class="fa fa-backspace"></i>
+        Back
+      </button>
+      <button (click)='save()' class="btn btn-primary">
+        <i class="fa fa-save"></i>
+        Save
+      </button>
+    </div>
+  </div>
+</div>

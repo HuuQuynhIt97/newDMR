@@ -1,0 +1,136 @@
+<div class="row mb-2">
+  <div class="col-md-12 mt-4 text-center">
+    <div style="font-size: 30px;" class="pretty p-svg p-curve" [class.lock]='checkedSmallScale'>
+      <input (change)='onChangeScale($event)' value="small" type="checkbox" name="scale" />
+      <div class="state p-success">
+        <svg class="svg svg-icon" viewBox="0 0 20 20">
+          <path
+            d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+            style="stroke: white;fill:white;"></path>
+        </svg>
+        <label>{{'Small Scale' | translate}}</label>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card my-height">
+  <div class="card-header">
+    <div class="card-tools">
+      <button type="button" (click)='reloadPage()' class="btn btn-sm btn-primary">
+        <i class="fas fa-refresh"></i> {{ 'Refresh' | translate }}
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="text-center text-danger font-weight-bold"> {{ 'GLUE_NAME' | translate }}: {{glueName}}
+          | {{ 'Mixed. Con.' | translate }}: {{detail?.mixedConsumption}} |
+          {{ 'Delivered. Con.' | translate }}: {{detail?.deliveryConsumption}}
+        </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+
+          <div class="col-md-2 col-xl-2 text-center">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="font-weight-bold text-black" for="">{{ 'STEP' | translate }}</label>
+              </div>
+              <div class="col-md-10">
+                <label class="font-weight-bold" for="">{{ 'SCAN_QRCODE' | translate }}</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 col-xl-5 text-center">
+            <label class="font-weight-bold" for="">{{ 'INGREDIENT_NAME' | translate}}</label>
+          </div>
+          <div class="col-md-5">
+            <div class="row">
+              <div class="col-md-8 text-center">
+                <label class="font-weight-bold" for="">{{ 'Std. Con.' | translate }} ({{unit == 'k'? 'kg': 'g'}})
+                </label>
+              </div>
+              <div class="col-md-4 text-center">
+                <label class="font-weight-bold" for="">{{ 'ACTUAL' | translate }} ({{unit == 'k'? 'kg': 'g'}})</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngFor="let item of ingredients ;let i=index">
+          <div class="row mb-1">
+            <div class="col-md-2 col-xl-2">
+              <div class="row">
+                <div class="col-xl-2">
+                  <div class="align-middle">
+                    <img *ngIf="showArrow(item)" src="../../../../assets/img/gif/arrow.gif" alt="">
+                  </div>
+                </div>
+                <div class="col-xl-10">
+                  <input *ngIf="item.scanStatus; else scanBlock" class="form-control form-control-lg rounded-pill"
+                    [autofocus]='item.scanStatus' autoselect [name]="item.code" [(ngModel)]="item.scanCode"
+                    [class]="item.info" [ngClass]="lockClass(item)"
+                    (ngModelChange)='onNgModelChangeScanQRCode($event, item)' type="text">
+                  <ng-template #scanBlock>
+                    <input class="form-control form-control-lg rounded-pill" [(ngModel)]="item.scanCode"
+                      [name]="item.code" [class]="item.info" [ngClass]="lockClass(item)"
+                      (ngModelChange)='onNgModelChangeScanQRCode($event, item)' type="text">
+                  </ng-template>
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group col-md-5 col-xl-5">
+              <input [class]="item.info" [class.lock]="true" class="form-control form-control-lg rounded-pill lock"
+                [value]="item.name + ' ( ' + item.percentage + '% )'" type="text">
+            </div>
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-8">
+                  <input *ngIf="item.focusExpected; else expectedBlock" [class.lock]="item.position !== 'A'"
+                    class="form-control form-control-lg rounded-pill" [value]='item.expected'
+                    [autofocus]='item.focusExpected' [class]="item.info" (keyup)='onKeyupExpected(item, $event)'
+                    type="text">
+                  <ng-template #expectedBlock>
+                    <input class="form-control form-control-lg rounded-pill lock" [value]='item.expected'
+                      [class]="item.info" (keyup)='onKeyupExpected(item, $event)' type="text">
+                  </ng-template>
+                </div>
+                <div class="col-md-4">
+                  <!-- [class.lock]="1 === 1" -->
+                  <!-- Update by Leo 3/1/2021  -->
+                  <input class="form-control form-control-lg rounded-pill mixing" [class.lock]="item.position"
+                    data-toggle="tooltip" title="tooltip on second input!" *ngIf="item.focusReal; else realElse"
+                    autocomplete="off" (blur)='onBlur(item)' [value]='item.real' [id]='item.position'
+                    [class]="realClass(item)" [autofocus]='item.focusReal' (click)='onDblClicked(item, $event)'
+                    (keyup)='onKeyupReal(item, $event)' type="text">
+                  <ng-template #realElse>
+                    <!-- Update by Leo 3/1/2021  -->
+                    <input class="form-control form-control-lg rounded-pill mixing" [class.lock]="item.position"
+                      data-toggle="tooltip" title="tooltip on second input!" [value]='item.real' [id]='item.position'
+                      autocomplete="off" (blur)='onBlur(item)' (click)='onDblClicked(item, $event)'
+                      [class]="realClass(item)" (keyup)='onKeyupReal(item, $event)' type="text">
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="text-center mb-1">
+
+          <button type="button" (click)="back()" class="btn btn-primary rounded-pill"><i
+              class="fa fa-arrow-circle-left"></i>
+            {{ 'BACK' | translate }}</button>
+          <button type="button" [disabled]="disabled" (click)="Finish()" class="btn btn-success rounded-pill ml-2"><i
+              class="fas fa-save"></i>
+            {{ 'FINISHED' | translate }}</button>
+        </div>
+        <p class="text-center my-2 text-danger" *ngIf="!disabled">{{ 'NOTE' | translate }}</p>
+      </div>
+    </div>
+  </div>
+</div>

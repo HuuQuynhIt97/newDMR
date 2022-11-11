@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Role group list</h5>
+      </div>
+      <ejs-grid #grid (actionBegin)="actionBegin($event)" gridLines='Both' (actionComplete)="actionComplete($event)"
+        [toolbar]='toolbarOptions' [dataSource]='data' allowPaging='true' [allowSorting]='true' allowResizing='true'
+        showColumnMenu='true' [allowExcelExport]='true' allowFiltering='true' [filterSettings]='filterSettings'
+        [pageSettings]='pageSettings' (toolbarClick)='toolbarClick($event)' [editSettings]='editSettings'>
+        <e-columns>
+          <e-column field='id' headerText='#' width='70' textAlign='Center' isPrimaryKey='true'>
+            <ng-template #template let-data>
+              {{NO(data.index)}}
+            </ng-template>
+          </e-column>
+          <e-column field='code' headerText='Code' width='200' textAlign='Center'>
+          </e-column>
+          <e-column field='name' headerText='Role Group' width='200' textAlign='Center'>
+          </e-column>
+          <e-column field='option' headerText='Option' width='200' textAlign='Center'>
+            <ng-template #template let-data>
+             <button  appPermission appFunction="Role" appAction="PRIVILEGE" class="btn btn-primary" [routerLink]="['/ec/setting/role/privilege/' + data.id]" routerLinkActive="router-link-active" >Privilege</button>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

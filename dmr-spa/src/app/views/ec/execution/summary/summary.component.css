@@ -1,0 +1,210 @@
+/* input:focus{
+    background-color: rgb(252, 248, 54);
+  } */
+
+  /* #todolist th:nth-child(1), #delegateTable tr td:nth-child(1){
+   display: none; 
+} */
+   .my-align{
+    vertical-align: middle!important;
+    text-align: center!important;
+    font-weight: 700;
+  }
+  .fix-css {
+    font-weight: 700!important;
+    font-size: 16px!important;
+    font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"!important;
+
+  }
+  .real {
+    background-color: #b8daff!important;
+  }
+  input.error-scan {
+    width: 100%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: none;
+    background-color: #dc3545;
+    color: white;
+  }
+  input.success-scan {
+    width: 100%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: none;
+    background-color: #3CBC8D;
+    color: white;
+    font-weight: bold
+  }
+  /* input.noHover{
+  pointer-events: none; 
+  }
+input.lock {
+  pointer-events: none;
+} */
+.lock {
+  pointer-events: none;
+}
+input.warning-focus {
+  animation: warning-frames .5s infinite;
+  color: black;
+  /* border: 1px solid #3CBC8D; */
+
+}
+input {
+  /* pointer-events: none; */
+  text-align: center;
+}
+@keyframes warning-frames {
+  from {background-color: #fade40;}
+  to {background-color:  #e7f70c;}
+}
+
+/* @media (min-width: 1285px) {
+  input {
+    height: calc(2.5em + 1.5rem + 4px);
+    padding: .5rem 1rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+ }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  input {
+    height: calc(1.5em + 1rem + 2px);
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+ }
+} */
+input.summaryhide {
+  border:none !important;
+  padding: 0!important;
+}
+input.summary {
+  border:none !important;
+  padding: 0!important;
+}
+input.summary:focus {
+  border-bottom: 3px solid #dc3545 !important;
+  border-radius: 0;
+}
+.my-sticky
+{
+  position:sticky;
+  top:0px;
+  z-index: 997;
+  height: 40px;
+  background-color: #ffffff;
+}
+.my-sticky-glue
+{
+  position:sticky;
+  left: 72px;
+  z-index: 997;
+  background-color: #ffffff;
+}
+.my-sticky-top {
+  position: sticky;
+    top: 45px;
+    z-index: 998;
+    vertical-align: middle;
+}
+.my-cursor-pointer {
+  cursor: pointer;
+}
+
+@media only screen and (max-height: 1024px){
+  .my-height {
+    min-height: 868px;
+    position: relative;
+  };
+}
+@media only screen and (max-height: 978px){
+  .my-height {
+    min-height: 788px;
+    position: relative;
+  };
+}
+@media only screen and (min-height: 1101px){
+  .my-height {
+    min-height: 945px;
+    position: relative;
+
+  };
+}
+@media only screen and (min-height: 768px){
+.my-height {
+    min-height: 612px;
+    position: relative;
+  };
+}
+@media only screen and (min-height: 625px){
+.my-height {
+    min-height: 470px;
+    position: relative;
+  };
+}
+@media only screen and (min-height: 694px){
+.my-height {
+    min-height: 539px;
+    position: relative;
+  };
+}
+@media only screen and (min-height: 781px){
+.my-height {
+    min-height: 625px;
+    position: relative;
+  };
+}
+.my-vertical {
+  position: absolute;
+	left: 50%;
+  top: 50%;
+  width: 100%;
+	transform: translate(-50%, -50%);
+}
+/* .my-background {
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+  background-image:  url('../../../../assets/img/bg1.jpg');
+} */
+
+.my-bg-success {
+  background-color: #c3e6cb;
+}
+.my-bg-warning {
+  background-color: #ffeeba;
+}
+.my-bg-primary {
+  background-color: #b8daff;
+}
+#todolist thead {
+  width: calc(100% - 17px); /* - 17px because of the scrollbar width */
+}
+
+#todolist tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#todolist tbody tr td,
+#todolist thead tr th {
+  font-weight: bold;
+}
+#todolist thead tr th[rowspan]:nth-child(2),
+#todolist tbody tr td[rowspan]:nth-child(2) {
+  position: -webkit-sticky;
+  position: sticky; 
+  left:80px;
+
+}
+#todolist thead tr th[rowspan]:first-child,
+#todolist tbody tr td[rowspan]:first-child {
+  position: -webkit-sticky;
+  position: sticky; 
+  left:0;
+  width: 80px;
+}
+
+

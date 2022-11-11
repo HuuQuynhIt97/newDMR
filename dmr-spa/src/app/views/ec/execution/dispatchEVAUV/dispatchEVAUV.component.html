@@ -1,0 +1,87 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'Dispatch' | translate}} {{data.glueName}} </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+</div>
+
+<div class="modal-body p-2">
+  <div class="row pt-2">
+    <div class="col-md-12 ">
+        <div class="my-2">
+          <div class="d-flex justify-content-start align-items-center"
+          style=" height: 50px; box-shadow: 0 4px 10px 0 rgb(0 0 0 / 20%), 0 4px 20px 0 rgb(0 0 0 / 19%);"
+          >
+          <div class="pretty p-default p-smooth p-bigger ml-2">
+            <input type="radio" value="Default" [(ngModel)]="option" (change)='onChangeDefault($event)' name="radio" />
+            <div class="state p-success">
+              <label>Default</label>
+            </div>
+          </div>
+
+          <div class="pretty p-default p-smooth p-bigger">
+            <input type="radio" value="Reset" [(ngModel)]="option"  (change)='onChangeReset($event)' name="radio" />
+            <div class="state p-success">
+              <label>Reset</label>
+            </div>
+          </div>
+
+          <span *ngFor="let item of lines">
+            <span class="mx-2"> <span class="font-weight-bold">{{item?.name}}:</span> {{item?.amountTotal}}G</span>
+          </span>
+        </div>
+
+        </div>
+          <ejs-grid #grid [dataSource]='dispatchData'
+            (actionBegin)='actionBegin($event)'
+            allowResizing='true' gridLines='Both' [editSettings]='editSettings'
+            (recordDoubleClick)='recordDoubleClick($event)'
+            (toolbarClick)='toolbarClick($event)'
+            [toolbar]='toolbarOptions'>
+            <e-columns>
+              <e-column field='building.name' headerText='Name' width='100' textAlign='Center'>
+                <ng-template #headerTemplate>
+                  {{'Line' | translate}}
+                </ng-template>
+                <ng-template #editTemplate let-data>
+                  <ejs-dropdownlist id='reportOption' [dataSource]="lineNames" (change)='onChangeLine($event)' [value]='lineItem'>
+                  </ejs-dropdownlist>
+                </ng-template>
+              </e-column>
+              <e-column field='remainingAmount' headerText='Remaining Amount' width='200' textAlign='Center'>
+                <ng-template #headerTemplate>
+                  {{'Remaining Amount' | translate}}
+                </ng-template>
+                <ng-template #template let-data>
+                  {{ data.remainingAmount === null ? 'N/A' : data.remainingAmount }}
+                </ng-template>
+              </e-column>
+              <e-column field='amount' headerText='Dispatch Amount' width='200' textAlign='Center'>
+                <ng-template #headerTemplate>
+                  {{'Dispatch Amount' | translate}}
+                </ng-template>
+                <ng-template #editTemplate let-data>
+                  {{data.amount }}
+                </ng-template>
+              </e-column>
+              <e-column field='createdTime' headerText='Time' width='100' textAlign='Center'>
+                <ng-template #headerTemplate>
+                  {{'Time' | translate}}
+                </ng-template>
+                <ng-template #template let-data>
+                  {{data.createdTime | date: 'HH:mm'}}
+                </ng-template>
+                <ng-template #editTemplate let-data>
+                  {{data.createdTime | date: 'HH:mm'}}
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+    </div>
+  </div>
+</div>
+<div class="modal-footer justify-content-center d-flex">
+  <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="fa fa-save"></i>
+    {{'SAVE' | translate}}</button>
+</div>

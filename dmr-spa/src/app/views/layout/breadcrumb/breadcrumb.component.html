@@ -1,0 +1,16 @@
+<!-- <marquee direction="right"> <span class="text-danger">Thông báo! Hệ thống đã cập nhật phiên bản mới vào lúc 9:30!</span></marquee>
+<hr> -->
+<div class="content-header p-0">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <ol class="breadcrumb breadcrumb-arrow">
+          <li  *ngFor="let breadcrumb of breadcrumbs; let i=index"><a style="cursor: pointer;" (click)="gotoRouter(breadcrumb)" >{{ breadcrumb.label | translate  }}</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

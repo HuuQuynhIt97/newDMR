@@ -1,0 +1,200 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-building"></i> {{'Building List' | translate}}
+        </h3>
+      </div>
+      <!-- /.card-header -->
+
+      <div class="card-body table-responsive p-0">
+        <ejs-grid [dataSource]="buildings" [editSettings]='editSettings' (rowSelected)='rowSelected($event)'
+          allowSorting='true' gridLines='Both' (created)='created()' [toolbar]='toolbar'>
+          <e-columns>
+            <e-column field="level" width="80" isPrimaryKey="true" headerText="{{'Level' | translate}}" textAlign='Center'>
+            </e-column>
+            <e-column field="name" isPrimaryKey="true" headerText="{{'Building Name' | translate}}" textAlign='Center'> </e-column>
+            <e-column field="lunchTime" headerText="{{'Lunch Time' | translate}}" textAlign='Center'>
+              <ng-template #editTemplate let-data>
+                <ejs-dropdownlist #lineDropdownlist [dataSource]='lunchTimeData' [(ngModel)]="data.lunchTime"
+                  popupHeight='200px' popupWidth='250px' [allowFiltering]='true' [fields]='fields'
+                  (select)='onSelectLunchTime($event, data)'>
+                </ejs-dropdownlist>
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.lunchTime}}
+              </ng-template>
+            </e-column>
+            <e-column field="Option" isPrimaryKey="true" headerText="{{'Option' | translate}}" textAlign='Center'>
+              <ng-template #template let-data>
+                <div class="btn-group" *ngIf="data.lunchTimeID > 0">
+                  <button type="button" (click)='showModal(periodModal,data)' class="btn btn-xs btn-info"> <i
+                      class="fa fa-plus"></i> {{'Time Period Mixing' | translate}} </button>
+                </div>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+
+</div>
+
+
+<ng-template #periodModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> Time Period Mixing List <span class="font-weight-bold text-danger"> ( *The lunch time of {{building.name}} building: {{ building.lunchTime}})</span>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <ejs-grid #grid
+          [dataSource]='periods'
+          allowPaging='true'
+          showColumnMenu='true'
+          [allowSorting]='true'
+          allowResizing= 'true'
+          [allowExcelExport]='true'
+          allowFiltering='true'
+          [filterSettings]='filterSettings'
+          gridLines='Both'
+          rowHeight='38'
+          (actionBegin)="actionBeginPeriodsGrid($event)" [editSettings]='editSettings' [toolbar]='toolbarOptions'>
+          <e-columns>
+            <e-column field='period' headerText='Period' isPrimaryKey='true' width='60'>
+              <ng-template #template let-data>
+                {{NO(data.index)}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+              </ng-template>
+            </e-column>
+
+            <e-column field='startTime' editType='timepickeredit' format='HH:mm' textAlign='Center'
+              headerText='Start Time' width='120'>
+              <ng-template #template let-data>
+                {{data.startTime | date: 'HH:mm'}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <kendo-timepicker style="width: 100%;" [(ngModel)]="data.startTime"
+                  (valueChange)="onChangeStartTime($event)" [format]="'HH:mm'">
+                </kendo-timepicker>
+              </ng-template>
+            </e-column>
+
+            <e-column field='endTime' editType='timepickeredit' format='HH:mm' textAlign='Center' headerText='End Time'
+              width='120'>
+              <ng-template #template let-data>
+                {{data.endTime | date: 'HH:mm'}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <kendo-timepicker style="width: 100%;" (valueChange)="onChangeEndTime($event)"
+                  [(ngModel)]="data.endTime" [format]="'HH:mm'"></kendo-timepicker>
+              </ng-template>
+            </e-column>
+
+            <e-column field='isOvertime' headerText="{{'Overtime/No Overtime'| translate}}" width='138'
+              textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'Overtime/No Overtime'| translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                <ejs-switch cssClass="custom-overtime" #switch onLabel="{{'Overtime' | translate}}"
+                  (change)='changeOvertime($event, data)' offLabel="{{'' | translate}}" [checked]="data.isOvertime"
+                  style="width: 80px; "></ejs-switch>
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <ejs-switch cssClass="custom-overtime" #switch onLabel="{{'Overtime' | translate}}"
+                  (change)='changeOvertime($event, data)' offLabel="{{'' | translate}}" [checked]="data.isOvertime"
+                  style="width: 80px; "></ejs-switch>
+              </ng-template>
+            </e-column>
+
+            <e-column field='option' headerText="{{'Option'| translate}}" width='138' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'Option'| translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                <div class="btn-group" >
+                  <button type="button" (click)='showPeriodDispatchModal(periodDispatchModal,data)' class="btn btn-xs btn-info"> <i class="fa fa-plus"></i>
+                    {{'Time Period Dispatch' | translate}} </button>
+                </div>
+              </ng-template>
+            </e-column>
+
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+
+</ng-template>
+
+<ng-template #periodDispatchModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> Time Period Dispatch List <span class="font-weight-bold text-danger"> ( *The time period mixing: {{periodMixing.startTime | date: "HH:mm"}} - {{periodMixing.endTime | date: "HH:mm"}} )</span>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <ejs-grid #grid [dataSource]='periodsDispatch' allowPaging='true' showColumnMenu='true' [allowSorting]='true'
+          allowResizing='true' [allowExcelExport]='true' allowFiltering='true' [filterSettings]='filterSettings'
+          gridLines='Both' rowHeight='38' (actionBegin)="actionBeginPeriodsDispatchGrid($event)"
+          [editSettings]='editSettings' [toolbar]='toolbarOptions'>
+          <e-columns>
+            <e-column field='period' headerText='Period' isPrimaryKey='true' width='60'>
+              <ng-template #template let-data>
+                {{NO(data.index)}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+              </ng-template>
+            </e-column>
+
+            <e-column field='startTime' editType='timepickeredit' format='HH:mm' textAlign='Center'
+              headerText='Start Time' width='120'>
+              <ng-template #template let-data>
+                {{data.startTime | date: 'HH:mm'}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <kendo-timepicker style="width: 100%;" [(ngModel)]="data.startTime"
+                  (valueChange)="onChangeStartTimePeriodDispatch($event)" [format]="'HH:mm'">
+                </kendo-timepicker>
+              </ng-template>
+            </e-column>
+
+            <e-column field='endTime' editType='timepickeredit' format='HH:mm' textAlign='Center' headerText='End Time'
+              width='120'>
+              <ng-template #template let-data>
+                {{data.endTime | date: 'HH:mm'}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <kendo-timepicker style="width: 100%;" (valueChange)="onChangeEndTimePeriodDispatch($event)"
+                  [(ngModel)]="data.endTime" [format]="'HH:mm'"></kendo-timepicker>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+
+</ng-template>

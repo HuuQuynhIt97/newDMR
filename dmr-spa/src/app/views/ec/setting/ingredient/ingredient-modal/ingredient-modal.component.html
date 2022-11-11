@@ -1,0 +1,87 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group d-none">
+        <label for="">ID</label>
+        <input [(ngModel)]="ingredient.id" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="">Chemical</label>
+        <input type="text" [(ngModel)]="ingredient.name" (blur)="onBlur($event)" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="">Part #</label>
+        <input type="text" [(ngModel)]="ingredient.partNO" (blur)="onBlur($event)" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="">VOC (%)</label>
+        <input type="text" [(ngModel)]="ingredient.voc" (blur)="onBlur($event)" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="">Expiry Period (hr.)</label>
+        <input type="text" [(ngModel)]="ingredient.expiredTime" class="form-control">
+      </div>
+      <!-- <div class="form-group">
+        <label for="">Replacement Frequency(hr.)</label>
+        <input type="text" [(ngModel)]="ingredient.replacementFrequency" class="form-control">
+
+      </div> -->
+      <div class="form-group">
+        <label for="">Choose Glue Type</label>
+        <ejs-dropdownlist [dataSource]='glueTypeData' [fields]='fields' [allowFiltering]='true'
+          [value]="ingredient.glueTypeID" (change)='onChangeGlueType($event)' (select)='onSelectGlueType($event)'
+          placeholder="Select a glue type">
+        </ejs-dropdownlist>
+      </div>
+
+    </div>
+    <div class="col-md-6">
+
+
+
+      <div class="form-group">
+        <label for="">Material #</label>
+        <input type="text" [(ngModel)]="ingredient.materialNO" (blur)="onBlur($event)" class="form-control">
+      </div>
+
+
+
+      <div class="form-group">
+        <label for="">Amount(kg)</label>
+        <input type="text" [(ngModel)]="ingredient.unit" (blur)="onBlur($event)" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="">Days to Expiry(day)</label>
+        <input type="text" [(ngModel)]="ingredient.daysToExpiration" class="form-control">
+      </div>
+
+      <!-- <div class="form-group">
+        <label for="">Prepare Time(hr.)</label>
+        <input type="text" [(ngModel)]="ingredient.prepareTime" class="form-control">
+      </div> -->
+
+      <div class="form-group">
+        <label for="">Choose Supplier</label>
+        <ejs-dropdownlist id='glueDropdownlist' #glueDropdownlist [dataSource]='supplier' [fields]='fieldsGlue'
+          [allowFiltering]='true' [value]="ingredient.supplierID" (change)='onChangeSup($event)'
+          [placeholder]='textGlue'>
+        </ejs-dropdownlist>
+      </div>
+      <div class="form-group d-none">
+        <label for="">Code</label>
+        <input type="text" class="form-control">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer justify-content-between">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="btn btn-outline-dark" (click)="save()">Save</button>
+</div>

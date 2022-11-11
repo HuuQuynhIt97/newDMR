@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Function List</h5>
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <ejs-treegrid #treeGrid [dataSource]='data' [toolbar]='toolbarOptions' [treeColumnIndex]='1'
+        [editSettings]='editSettingsTree' childMapping='childNodes'
+        (actionComplete)="actionComplete($event)"
+        (created)='created()'
+        [allowPaging]='true' [pageSettings]='pageSettings'
+        (actionBegin)="actionBegin($event)" gridLines='Both' (rowSelected)="rowSelected($event)"
+        >
+        <e-columns>
+
+          <e-column field='id' headerText='#' width='70' textAlign='Center' isPrimaryKey='true'>
+            <ng-template #template let-data>
+              {{NO(data.index)}}
+            </ng-template>
+          </e-column>
+            <e-column field='entity.code' headerText='Function Code' width='200' textAlign='Center'>
+            </e-column>
+            <e-column field='entity.name' headerText='Function Name' width='200' textAlign='Center'>
+            </e-column>
+
+            <e-column field='entity.url' headerText='Url' width='200' textAlign='Center'>
+            </e-column>
+
+            <e-column field='entity.sequence' headerText='Sequence' width='100' textAlign='Center'>
+            </e-column>
+
+            <e-column field='entity.module.name' headerText='Module name' width='200' textAlign='Center'>
+              <ng-template #editTemplate let-data>
+                <ejs-dropdownlist #moduleDropdownlist [dataSource]='moduleData' [value]="data.entity.module?.name" [fields]='fieldsModule'
+                  [allowFiltering]='true' (change)='onChangeModule($event)'>
+                </ejs-dropdownlist>
+              </ng-template>
+            </e-column>
+
+        </e-columns>
+      </ejs-treegrid>
+    </div>
+  </div>
+</div>

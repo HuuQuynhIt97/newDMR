@@ -1,0 +1,35 @@
+<div class="card">
+    <!-- <div class="card-header">
+        <h2>Delivered History</h2>
+    </div> -->
+    <div class="card-body">
+        <ejs-grid  [dataSource]='data' #grid
+            gridLines='Both'
+            id='grid'
+            [allowSorting]='true'
+            [allowExcelExport]='true'
+            allowFiltering='true'
+            [filterSettings]='filterSettings'
+            [pageSettings]='pageSettings'
+            allowPaging="true"
+            [toolbar]='toolbarOptions'
+            allowResizing= 'true'
+            showColumnMenu='true'
+            (toolbarClick)='toolbarClick($event)'>
+            <e-columns>
+                <e-column field='#' textAlign='Center' headerText='#' width='40'>
+                   <ng-template let-data #template>
+                        {{NO(data.index)}}
+                   </ng-template>
+                </e-column>
+                <e-column field='glueName' textAlign='Center' headerText='Glue' width='100'></e-column>
+                <e-column field='buildingName' textAlign='Center' headerText='Line' width='130'></e-column>
+                <e-column field='qty' textAlign='Center' headerText='Qty' width='100'>
+                  <ng-template #template let-data>{{data.qty}} kg</ng-template>
+                </e-column>
+                <e-column field='deliveredBy' textAlign='Center' headerText='Delivered By' width='150'></e-column>
+                <e-column field='createdDate' textAlign='Center' type='dateTime' format='d MMM, yyyy HH:mm' headerText='Delivered Date' width='150'></e-column>
+            </e-columns>
+        </ejs-grid>
+    </div>
+</div>

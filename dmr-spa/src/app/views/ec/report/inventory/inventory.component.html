@@ -1,0 +1,116 @@
+<div class="card">
+  <!-- <div class="card-header">
+    <h3>Inventory</h3>
+
+  </div> -->
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-1">
+        <div class="font-weight-bold">{{'FILTER_LABEL' | translate}}:</div>
+      </div>
+      <div class="col-md-2">
+        <ejs-datepicker [value]='startDate' (change)='startDateOnchange($event)' [(ngModel)]='startDate'></ejs-datepicker>
+      </div>
+      <div class="col-md-2">
+        <ejs-datepicker [value]='endDate' (change)='endDateOnchange($event)' [(ngModel)]='endDate'></ejs-datepicker>
+      </div>
+      <div class="col-md-2">
+          <ejs-dropdownlist #modelNameDropdownlist [dataSource]='buildings' [fields]='fieldsBuildings'
+            [allowFiltering]='true' [value]="buildingID" (filtering)='onFilteringBuilding($event)'
+            (change)='onChangeBuilding($event)' placeholder="Select a building">
+          </ejs-dropdownlist>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-sm btn-default" (click)='onClickDefault()'>
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <ejs-grid #ingredientinforeportGrid  [dataSource]='data'
+          [allowExcelExport]='true' [allowSorting]='true' allowFiltering='true' [filterSettings]='filterSettings'
+          [toolbar]='toolbarOptions' showColumnMenu='true' [pageSettings]='pageSettings'
+          allowPaging="true" gridLines='Both' (toolbarClick)='toolbarClick($event)'>
+          <e-columns>
+            <!-- <e-column field='#' headerText='#' width='40'>
+            <ng-template let-data #template>
+              {{NO(data.index)}}
+            </ng-template>
+          </e-column> -->
+            <e-column field='createdTime' textAlign='Center' headerText='Time' width='150'>
+              <ng-template #headerTemplate>
+                {{'TIME_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.createdTime | date:'dd MMM, yyyy , HH:mm'}}
+              </ng-template>
+
+            </e-column>
+
+            <e-column field='supplierName' textAlign='Center' headerText='Supplier' width='100'>
+              <ng-template #headerTemplate>
+                {{'SUPPLIER' | translate}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='name' textAlign='Center' headerText='Ingredient' width='100'>
+              <ng-template #headerTemplate>
+                {{'INGREDIENT_LABEL' | translate}}
+              </ng-template>
+
+            </e-column>
+
+            <e-column field='manufacturingDate' textAlign='Center' headerText='Production date' width='130'>
+              <ng-template #headerTemplate>
+                {{'PRODUCTION_DATE_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.manufacturingDate | date:'dd MMM, yyyy'}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='batch' textAlign='Center' headerText='Batch' width='100'>
+              <ng-template #headerTemplate>
+                {{'BATCH_LABEL' | translate}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='expiredTime' textAlign='Center' headerText='Expired Date' width='130'>
+              <ng-template #headerTemplate>
+                {{'EXPIRED_DATE_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.expiredTime | date:'dd MMM, yyyy'}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='qty' textAlign='Center' headerText='Recieve Qty (Kg)' width='130'>
+              <ng-template #headerTemplate>
+                {{'QTY_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.qty}} Kg
+              </ng-template>
+            </e-column>
+
+            <e-column field='consumption' textAlign='Center' headerText='Consumption' width='100'>
+              <ng-template #headerTemplate>
+                {{'CONSUMPTION_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.consumption}} Kg
+              </ng-template>
+
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+
+    </div>
+  </div>
+
+</div>

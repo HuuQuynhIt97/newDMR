@@ -1,0 +1,171 @@
+<div class="card">
+  <div class="card-header">
+    <h3>{{ 'EXECUTION' | translate }} - {{ 'STIR' | translate }}</h3>
+  <div class="card-tools">
+    <button type="button"
+    (click)="goToTodolist()"
+     class="btn btn-sm btn-primary" data-card-widget="collapse">
+      <i class="fas fa-reply"></i> {{ 'BACK' | translate }}
+    </button>
+  </div>
+  </div>
+  <div class="card-body p-0 my-3">
+    <div class="row">
+      <div class="col-md-12">
+        <form class="w3-container w3-card-4  w3-text-black ">
+          <h2 class="w3-center">Scan QR Code</h2>
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:100px">
+              <img src="../../../../assets/img/gif/1981.gif" height="40px" width="80%" alt="">
+            </div>
+            <div class="w3-rest">
+              <!-- [autofocusSearch]="true" -->
+              <input class="form-control" name="qrcode" autofocusSearch [ngModel]="qrCode"
+                (ngModelChange)='onNgModelChangeScanQRCode($event)' type="text">
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <h3 class="text-center text-danger">{{ 'GLUE_NAME' | translate }}: {{glueName}}</h3>
+    <div class="d-inline-flex mb-3">
+      <div class="p-2 mx-1"><b class="font-weight-bold">{{ 'Standard RPM' | translate }}:</b> {{standardRPM}}</div>
+      <div class="p-2 mr-1"><b class="font-weight-bold">{{ 'Duration' | translate }}:</b> {{duration }} {{ 'minutes' | translate }}</div>
+      <div class="p-2 mr-1" *ngIf="startScanTime !== null"><b class="font-weight-bold">{{'Start Scan Time'| translate}}: </b> {{startScanTime | date: 'HH:mm:ss'}} </div>
+    </div>
+    <ejs-grid [dataSource]='stirData' #grid gridLines='Both' [allowSorting]='true' [allowExcelExport]='true'
+      allowFiltering='true' [filterSettings]='filterSettings' [pageSettings]='pageSettings' allowPaging="true"
+      [toolbar]='toolbarOptions' allowResizing='true' [rowHeight]='60' showColumnMenu='true'
+      (toolbarClick)='toolbarClick($event)'>
+      <e-columns>
+        <e-column field='Seq.' textAlign='Center' headerText='Seq.' width='60'>
+          <ng-template #headerTemplate>
+            {{ 'SEQ_LABEL' | translate }}
+          </ng-template>
+          <ng-template let-data #template>
+            <span class='font-weight-bold'>
+              {{ 'SEQ_LABEL' | translate }} {{NO(data.index)}}</span>
+          </ng-template>
+        </e-column>
+        <e-column field='glueType.title' textAlign='Center' headerText='Glue Type' width='100'>
+          <ng-template #headerTemplate>
+            {{ 'Glue Type' | translate }}
+          </ng-template>
+        </e-column>
+        <e-column field='standardDuration' textAlign='Center' headerText='DUR' width='130'>
+          <ng-template #headerTemplate>
+            {{ 'Standard Duration' | translate }}
+          </ng-template>
+          <ng-template #template let-data>{{data.standardDuration}} s</ng-template>
+        </e-column>
+        <e-column field='actualDuration' textAlign='Center' headerText='Qty' width='130'>
+          <ng-template #headerTemplate>
+            {{ 'Actual Duration' | translate }}
+          </ng-template>
+          <ng-template #template let-data>{{data.actualDuration}} s</ng-template>
+        </e-column>
+        <e-column field='startTime' textAlign='Center' type='dateTime' format='hh:mm:ss' headerText='Start Time'
+          width='100'>
+          <ng-template #headerTemplate>
+            {{ 'START_TIME_LABEL' | translate }}
+          </ng-template>
+          <ng-template #template let-data>
+            {{data.startTime !== "0001-01-01T00:00:00" ? (data.startTime | date: 'hh:mm:ss') : '#N/A'}}</ng-template>
+        </e-column>
+        <e-column field='endTime' textAlign='Center' type='dateTime' format='hh:mm:ss' headerText='End Time'
+          width='100'>
+          <ng-template #headerTemplate>
+            {{ 'END_TIME_LABEL' | translate }}
+          </ng-template>
+          <ng-template #template let-data>
+            {{data.endTime !== "0001-01-01T00:00:00" ? (data.endTime | date: 'hh:mm:ss') : '#N/A'}}</ng-template>
+        </e-column>
+        <e-column field='status' textAlign='Center' headerText='Status' width='110'>
+          <ng-template #headerTemplate>
+            {{ 'STATUS_LABEL_STIR' | translate }}
+          </ng-template>
+          <ng-template #template let-data>
+            <span
+              [class]="data.status === true ? 'badge badge-success' : 'badge badge-danger'">{{data.status === true ? 'Pass' : 'fail'}}</span>
+          </ng-template>
+        </e-column>
+        <!-- <e-column field='option' textAlign='Center' headerText='Count Down' width='100'>
+          <ng-template #template let-data>
+            <countdown [config]="{leftTime: 180}"></countdown>
+          </ng-template>
+        </e-column> -->
+        <e-column field='option' textAlign='Center' headerText='Option' width='100'>
+          <ng-template #headerTemplate>
+            {{ 'OPTION' | translate }}
+          </ng-template>
+          <ng-template #template let-data>
+            <div class="btn-group" *ngIf="data.status === false && data.actualDuration === 0">
+              <button type="button" [disabled]='data.mixingStatus === NA || data.mixingStatus === NOT_STIRRED_YET'
+                (click)='confirmData(data)' class="btn btn-xs btn-primary"><i class="fa fa-check"></i> Confirm</button>
+            </div>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+</div>
+
+<ng-template #infoModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> {{ 'Stiring Information Details' | translate}}
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-3 mt-2">
+        <label>AVG RPM: </label>
+      </div>
+      <div class="col-md-8 mt-2">
+        <input type="text" class="form-control form-control-sm" [value]="rpm" name="" disabled id="">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mt-2">
+        <label>{{ 'Minutes' | translate }}: </label>
+      </div>
+      <div class="col-md-8 mt-2">
+        <input type="text" [(value)]="totalMinutes" class="form-control form-control-sm" disabled>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mt-2">
+        <label>{{ 'Status' | translate }}: </label>
+      </div>
+      <div class="col-md-8 mt-2">
+        <ng-container *ngIf="status; else elseTemplate">
+          <button style="margin: 3px;" type="button" class="btn btn-info btn-sm">{{ 'Ok' | translate }}k</button>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <button style="margin: 3px;" type="button" class="btn btn-danger btn-sm">{{ 'Invalid' | translate }}</button>
+        </ng-template>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mt-4 text-center">
+        <button style="margin: 3px;" *ngIf="stir.rpm === 0" type="button" (click)="updateStir()"
+          class="btn btn-success">{{ 'Confirm' | translate }}</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+
+</ng-template>

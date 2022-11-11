@@ -1,0 +1,42 @@
+<footer class="main-footer">
+  <!-- To the right -->
+  <div class="float-right d-none d-sm-inline">
+    <i class="fa fa-users"></i> {{online}}
+  </div>
+  <!-- Default to the left -->
+  <img src="../../../../assets/img/logo-1.png" alt="AdminLTE Logo" class="img-circle" style="opacity: .8" width="25"
+    height="25" />
+  <strong>© 2020-2021 <span class="text-danger"> {{firstItem?.name}}</span>
+    <a style="cursor: pointer; color: blue; text-decoration: underline;" (click)='openModal(versionHistoryModal)'> -
+      Version History </a>
+    <a href="http://10.4.5.174:93"> - Lab Team </a>.
+  </strong>
+  <ng-template #versionHistoryModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title ml-1">
+        Version History
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+
+          <div *ngFor="let item of data">
+
+            <div class="callout callout-info">
+              <h1>{{item.name}} ({{item.upatedTime | date: 'YYYY-MM-dd HH:mm'}})</h1>
+              <div [innerHTML]="item.description"></div>
+              <p><label for="Name">Upload by:</label> {{item.uploadBy}}</p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
+</footer>

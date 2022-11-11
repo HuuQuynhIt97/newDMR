@@ -1,0 +1,294 @@
+<ngx-spinner [fullScreen]="false" type="square-jelly-box" size="medium">
+  <p class="loading">Loading data...</p>
+</ngx-spinner>
+<div class="row pt-2">
+  <div class="col-md-12 ">
+    <div class="card">
+      <div class="card-body table-responsive p-0">
+        <div class="row my-3">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12 d-flex justify-content-start align-items-center">
+                <div class="font-weight-bold px-3">{{'Start Time' | translate}}:</div>
+                <ejs-datepicker class="pr-3" [value]='startDate' (change)='startDateOnchange($event)'
+                  [(ngModel)]='startDate'></ejs-datepicker>
+                <div class="font-weight-bold pr-3">{{'End Time' | translate}}:</div>
+                <ejs-datepicker class="pr-3" [value]='endDate' (change)='endDateOnchange($event)' [(ngModel)]='endDate'>
+                </ejs-datepicker>
+                <div class="font-weight-bold pr-3">{{'Building' | translate}}:</div>
+
+                <!-- Sử dụng [value] thay thế cho [(ngModel)] để bắt đc sự kiện change. -->
+                <ejs-dropdownlist class="pr-3" [dataSource]='buildings' [fields]='fieldsBuildings'
+                  [allowFiltering]='true' [value]="buildingID" (filtering)='onFilteringBuilding($event)'
+                  (change)='onChangeBuilding($event)' placeholder="{{'Select a building' | translate}}">
+                </ejs-dropdownlist>
+                <button class="btn btn-sm btn-default" (click)='onClickDefault()'>
+                  <i class="fa fa-times"></i>
+                </button>
+                <h4 class="font-weight-bold px-3 text-danger">{{planInfo.text}}</h4>
+                <div class="div">
+                  <ul class="list-unstyled">
+                    <li class="text-danger">{{ 'Update Before 18:00' | translate}}: {{planInfo.updateOnTime}}</li>
+                    <li class="text-danger">{{ 'Total' | translate}}: {{planInfo.total}}</li>
+                    <li class="text-danger">{{ 'Achievement Rate' | translate}}: {{planInfo.rate}}%</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ejs-grid #grid [dataSource]='data' [searchSettings]="searchSettings" showColumnMenu='true'
+          [allowExcelExport]='true' allowPaging='true' allowSorting='true' allowResizing='true'
+          [showColumnChooser]='true' gridLines='Both' (actionBegin)="actionBegin($event)"
+          (actionComplete)="actionComplete($event)" (rowDataBound)="rowDataBound($event)" (dataBound)='dataBound()'
+          (queryCellInfo)='tooltip($event)' [toolbar]='toolbarOptions' [selectionSettings]="selectOptions"
+          [sortSettings]="sortSettings" (actionFailure)='actionFailure($event)' (toolbarClick)='toolbarClick($event)'
+          [pageSettings]='pageSettings' (recordDoubleClick)='onDoubleClick($event)' [editSettings]='editSettings'>
+          <e-columns>
+            <e-column field='buildingName' headerText="{{'LINE_LABEL' | translate}}" width='92' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'LINE_LABEL' | translate}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <ejs-dropdownlist #buildingNameDropdownlist id="buildingNameDropdownlist" [dataSource]='lines'
+                  [placeholder]="'Select a line' | translate" [value]="data.buildingName" popupHeight='200px'
+                  popupWidth='250px' [fields]='fieldsLine' [allowFiltering]='true'
+                  (change)='onChangeLine($event, data)'>
+                </ejs-dropdownlist>
+              </ng-template>
+            </e-column>
+            <e-column field='bpfcName' headerText="{{'BPFC_NAME_LABEL' | translate}}" width='344' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'BPFC_NAME_LABEL' | translate}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <ejs-dropdownlist #bpfcDropdownlist id="bpfcDropdownlist" [dataSource]='BPFCs' [value]="data.bpfcName"
+                  (filtering)='onFiltering($event)' popupHeight='300px' popupWidth='450px'
+                  [placeholder]="'Select a model' | translate" [fields]='fieldsBPFC' [allowFiltering]='true'
+                  (change)='onChangeBPFC($event, data)'>
+                </ejs-dropdownlist>
+              </ng-template>
+              <ng-template let-data #template>
+                {{data.bpfcName || '#N/A'}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='dueDate' type='date' format='MM-dd-yyyy' headerText="{{'DUE_DATE_LABEL' | translate}}"
+              width='138' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'DUE_DATE_LABEL' | translate}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <ejs-datepicker [value]='data.dueDate' [allowEdit]='false' [placeholder]="'Select a date' | translate"
+                  (change)='onChangeDueDateEdit($event, data)' format='MM-dd-yyyy'></ejs-datepicker>
+              </ng-template>
+
+            </e-column>
+
+            <e-column field='startTime' isPrimaryKey='true' type='date' headerText="{{'Start Time' | translate}}"
+              width='95' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'Start Time' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.startWorkingTime | date: 'HH:mm'}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                {{period.startTime | date: 'HH:mm'}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='endTime' isPrimaryKey='true' type='date' headerText="{{'End Time' | translate}}"
+              width='100' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'End Time' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                <span *ngIf="data.isOffline === true; else elseOffline">
+                  {{data.updatedOffline | date: 'HH:mm'}}
+                </span>
+                <ng-template #elseOffline>
+                  {{data.finishWorkingTime | date: 'HH:mm'}}
+                </ng-template>
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                16:30
+              </ng-template>
+            </e-column>
+
+            <e-column field='hourlyOutput' editType='numericedit' format='####'
+              headerText="{{'HOURLY_OUTPUT_LABEL' | translate}}" width='115' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'HOURLY_OUTPUT_LABEL' | translate}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='isGenerate' headerText="{{'Status' | translate}}" width='110' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'Status' | translate}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                N/A
+              </ng-template>
+              <ng-template #template let-data>
+                <span *ngIf="data.isGenerate">
+                  <i class="fa fa-check" style="color: green"></i>
+                </span>
+                <span *ngIf="!data.isGenerate">
+                  <i class="fa fa-times" style="color: red"></i>
+                </span>
+              </ng-template>
+            </e-column>
+
+
+            <e-column field='createdDate' [visible]='false' type='date' format='MM-dd-yyyy HH:mm'
+              headerText="{{'Created Date' | translate}}" width='138' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'Created Date' | translate}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='updatedTime' [visible]='false' type='date' format='MM-dd-yyyy HH:mm'
+              headerText="{{'Updated Time'| translate}}" width='138' textAlign='Center'>
+              <ng-template #headerTemplate>
+                {{'Updated Time'| translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.updatedTime === null ? 'N/A' : data.updatedTime| date: 'MM-dd-yyyy HH:mm'}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='updatedOffline' [visible]='false' type='date' format='MM-dd-yyyy HH:mm'
+              headerText="{{'Updated Offline'| translate}}" width='138' textAlign='Center'>
+              <ng-template #headerTemplate>
+                {{'Updated Offline'| translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.updatedOffline === null ? 'N/A' : data.updatedOffline| date: 'MM-dd-yyyy HH:mm'}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='updatedOvertime' [visible]='false' type='date' format='MM-dd-yyyy HH:mm'
+              headerText="{{'Updated Overtime'| translate}}" width='138' textAlign='Center'>
+              <ng-template #headerTemplate>
+                {{'Updated Overtime'| translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.updatedOvertime === null ? 'N/A' : data.updatedOvertime| date: 'MM-dd-yyyy HH:mm'}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='Inactive' type='date' format='MM-dd-yyyy HH:mm' headerText="{{'Inactive'| translate}}"
+              width='138' textAlign='Center'>
+              <ng-template #headerTemplate let-data>
+                {{'Inactive'| translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                <ejs-switch *ngIf="data.isGenerate" cssClass="custom-stop-line" #switch  appPermission appFunction="Work Plan" appAction="STOP_LINE"
+                  onLabel="{{'Inactive' | translate}}" (change)='changeStopLine($event, data)'
+                  offLabel="{{'' | translate}}" [checked]="data.isOffline"
+                  style="width: 80px; "></ejs-switch>
+              </ng-template>
+              <ng-template #editTemplate let-data>
+
+              </ng-template>
+            </e-column>
+            <e-column field='Overtime/No Overtime' textAlign='Center'
+              headerText="{{ 'Overtime/No Overtime' | translate }}" width='136'>
+              <ng-template #headerTemplate>
+                {{ 'Overtime/No Overtime' | translate }}
+              </ng-template>
+              <ng-template #template let-data>
+                <ejs-switch #switch cssClass="custom-overtime"  appPermission appFunction="Work Plan" appAction="OVERTIME_WORKPLAN"
+                  *ngIf="data.isOffline === false && data.isGenerate && data.isChangeBPFC == false"
+                  onLabel="{{'Overtime' | translate}}" (change)='changeOvertime($event, data)'
+                  offLabel="{{'No overtime' | translate}}" [checked]="data.isOvertime" style="width: 80px; ">
+                </ejs-switch>
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                Option
+              </ng-template>
+            </e-column>
+            <e-column field='Change BPFC' textAlign='Center' headerText=" {{ 'Change BPFC' | translate }}" width='120'>
+              <ng-template #headerTemplate>
+                {{ 'Change BPFC' | translate }}
+              </ng-template>
+              <ng-template #template let-data>
+                <div class="btn-group">
+                  <button type="button" appPermission appFunction="Work Plan" appAction="CHANGE_BPFC"
+                    *ngIf="data.isOffline === false && data.isGenerate && data.isChangeBPFC == false"
+                    (click)="openChangeBPFCModalComponent(changeBPFCModal, data)"
+                    class="btn btn-xs btn-primary step1-li"> <i class="fas fa-arrows-alt-h"></i> </button>
+                </div>
+                <div class="btn-group ml-1" *ngIf="data.isOffline === false && data.isGenerate == false">
+                  <button type="button" (click)="delete(data.id)" class="btn btn-xs btn-danger"  appPermission appFunction="Work Plan" appAction="DELETE"><i
+                      class="fa fa-trash"></i> </button>
+                </div>
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                Option
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #cloneModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> Clone Work Plan
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="Name">DueDate</label>
+          <span style="color:red">(*)</span>
+          <ejs-datepicker [value]='date' (change)='onChangeDueDateClone($event)' format='MM-dd-yyyy'></ejs-datepicker>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="submit" (click)='onClickClone()' class="btn btn-primary">Clone</button>
+  </div>
+</ng-template>
+
+
+<ng-template #changeBPFCModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> Change BPFC <b class="text-danger">(Lưu ý: Anh/Chị đang đổi giày cho chuyền
+        {{buildingNameForChangeModal}})</b>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <ejs-dropdownlist #changeBPFCDroupdownlist [dataSource]='BPFCsForChangeModal' [(ngModel)]="changebpfcID"
+            (filtering)='onFilteringChangeBPFCModal($event)' popupHeight='300px' popupWidth='450px'
+            (created)='created()' [placeholder]="'Select a model' | translate" [fields]='fieldsBPFC'
+            [allowFiltering]='true' (select)='onChangeBPFCModal($event)'>
+          </ejs-dropdownlist>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">{{ 'Close' | translate}}</button>
+    <button type="submit" (click)='changeBPFC()' class="btn btn-primary">{{ 'Confirm' | translate}}</button>
+  </div>
+</ng-template>

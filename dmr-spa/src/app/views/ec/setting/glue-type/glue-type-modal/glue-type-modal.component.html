@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    <i class="fas fa-plus"></i> {{title}}
+  </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Glue Type Name: </label>
+        <input name="glueType"  type="text" [(ngModel)]="glueType.title" placeholder="Title" class="form-control Name" />
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Minutes: </label>
+        <input name="glueType" type="text" [(ngModel)]="glueType.minutes" placeholder="Minutes" class="form-control Name" />
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>RPM/Cycle: </label>
+        <input name="glueType" type="text" [(ngModel)]="glueType.rpm" placeholder="RPM" class="form-control Name" />
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="glueType.parentID !== 0">
+      <label>Method: </label>
+      <div class="form-group">
+        <ejs-dropdownlist [dataSource]='methods' [fields]='fields'  placeholder="Select method" [value]="glueType.method" [allowFiltering]='true'
+          (change)='onChangeMethod($event)'>
+        </ejs-dropdownlist>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.close('Close click')">Close</button>
+  <button type="submit" (click)='createGlueType()' class="btn btn-primary">Save</button>
+</div>

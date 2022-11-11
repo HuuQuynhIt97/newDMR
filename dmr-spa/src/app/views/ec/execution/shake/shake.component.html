@@ -1,0 +1,81 @@
+<div class="card">
+  <div class="card-header">
+    <h4>
+      {{'Shake' | translate}} {{glueName}}
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="row pt-2">
+      <div class="col-md-12 ">
+        <ejs-grid #grid [dataSource]='shakesData' (actionBegin)='actionBegin($event)' allowResizing='true'
+          gridLines='Both' [editSettings]='editSettings' >
+          <e-columns>
+            <e-column field='chemicalType' headerText='Chemical Type' width='100' textAlign='Center'>
+              <ng-template #headerTemplate>
+                {{'Glue Type' | translate}}
+              </ng-template>
+            </e-column>
+            <e-column field='standardCycle' headerText='Standard Cycle' width='200' textAlign='Center'>
+              <ng-template #headerTemplate>
+                {{'Standard Cycle'| translate }}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.standardCycle === 0 ? "N/A" : data.standardCycle}}
+              </ng-template>
+            </e-column>
+            <e-column field='actualCycle' headerText='Actual Cycle' width='200' textAlign='Center'>
+              <ng-template #headerTemplate>
+                {{'Actual Cycle'| translate }}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.actualCycle === 0 ? "N/A" : data.actualCycle}}
+              </ng-template>
+            </e-column>
+            <e-column field='startTime' headerText='Start Time' width='100' textAlign='Center'>
+              <ng-template #headerTemplate>
+                {{'Start Time'| translate }}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.startTime === null ? "N/A" :data.startTime | date: 'HH:mm'}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                {{data.startTime | date: 'HH:mm'}}
+              </ng-template>
+            </e-column>
+            <e-column field='endTime' headerText='End Time' width='100' textAlign='Center'>
+              <ng-template #headerTemplate>
+                {{'End Time'| translate }}
+              </ng-template>
+              <ng-template #template let-data>
+                {{ data.endTime === null ? "N/A" : data.endTime | date: 'HH:mm'}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                {{data.endTime | date: 'HH:mm'}}
+              </ng-template>
+            </e-column>
+            <e-column field='status' headerText='Status' width='200' textAlign='Center'>
+              <ng-template #headerTemplate>
+                {{'Status' | translate}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                {{data.status === true ? "pass" : "Failed" }}
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+
+          <div class="text-center my-1">
+            <button type="button" (click)="back()" class="btn btn-primary rounded-pill">
+              <i class="fa fa-arrow-circle-left"></i>
+              {{ 'BACK' | translate }}
+            </button>
+
+            <button type="button" (click)="finish()" class="btn btn-success rounded-pill ml-2">
+              <i class="fas fa-save"></i>
+              {{ 'FINISHED' | translate }}
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

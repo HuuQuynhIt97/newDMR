@@ -1,0 +1,60 @@
+<ngx-spinner [fullScreen]="false" type="square-jelly-box" size="medium">
+  <p class="loading">Loading data...</p>
+</ngx-spinner>
+
+<div class="row" >
+  <div class="col-md-12">
+      <div class="card">
+          <!-- <div class="card-header">
+              <h5 class="card-title">History </h5>
+              <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                  </button>
+              </div>
+          </div> -->
+
+          <ejs-grid #grid  [toolbar]='toolbarOptions'
+          (toolbarClick)='toolbarClick($event)'
+          height='450px'
+          [dataSource]='data'
+          gridLines='Both'
+          allowFiltering='true'
+          [allowSorting]='true'
+          [filterSettings]='filterSettings'
+          showColumnMenu='true'
+          [allowExcelExport]='true'>
+              <e-columns>
+                  <e-column type='checkbox' isPrimaryKey='true' width='60'></e-column>
+                  <e-column field='code' headerText='QR Code' width='200' textAlign='Center' >
+                    <ng-template #template let-data>
+                      <ejs-qrcodegenerator style="display: block;" width="100px" height="130px" [displayText]='displayTextMethod' #barcode
+                        mode="SVG" [value]="data.code"></ejs-qrcodegenerator>
+                    </ng-template>
+                  </e-column>
+                  <e-column field='glue' headerText='Glue Name' width='200' textAlign='Center' >
+                  </e-column>
+                  <e-column field='batchA' headerText='Batch' width='100' textAlign='Center'>
+                  </e-column>
+                  <e-column field='realTotal' headerText='Real Total' width='100' textAlign='Center' >
+                    <ng-template #template let-data>
+                      {{data.realTotal}} kg
+                    </ng-template>
+                  </e-column>
+                  <e-column field='mixBy' headerText='Mix By' width='100' textAlign='Center'>
+                  </e-column>
+                  <e-column field='expiredTime' headerText='Expired Time' type='date' format='dd/MM/yyyy HH:mm' width='200' textAlign='Center' >
+                    <ng-template #template let-data>
+                      {{data.expiredTime === "0001-01-01T00:00:00" ? 'N/A': data.expiredTime | date: 'dd/MM/yyyy HH:mm'}}
+                    </ng-template>
+                  </e-column>
+                  <e-column field='createdTime' headerText='Created Time' type='date' format='dd/MM/yyyy HH:mm' width='200' textAlign='Center' >
+                  </e-column>
+              </e-columns>
+          </ejs-grid>
+      </div>
+      <div class="card-footer">
+        <p class="float-right">{{data?.length}} items</p>
+      </div>
+  </div>
+</div>

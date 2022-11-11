@@ -1,0 +1,22 @@
+  input.warning-scan {
+    width: 100%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    color: black!important;
+    animation: warning-frames .5s infinite;
+  }
+  input.success-scan {
+    width: 100%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: none;
+    background-color: #3CBC8D;
+    font-weight: bold;
+     border: none!important;
+     color: white!important;
+  }
+
+  @keyframes warning-frames {
+  from {background-color: rgb(255, 251, 0);}
+  to {background-color:  #ffea75;}
+}

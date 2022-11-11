@@ -1,0 +1,51 @@
+<div class="col-md-12">
+  <div class="card">
+    <!-- <div class="card-header">
+      <h3 class="card-title"><i class="fas fa-project-diagram"></i> Building List
+      </h3>
+    </div> -->
+    <!-- /.card-header -->
+
+    <div class="card-body table-responsive p-0">
+      <ejs-treegrid #treegrid [dataSource]="data"
+                    (contextMenuClick)='contextMenuClick($event)'
+                    (contextMenuOpen)='contextMenuOpen($event)'
+                    (toolbarClick)='toolbarClick($event)'
+                    [treeColumnIndex]='1'
+                    allowSorting='true'
+                    gridLines='Both'
+                    (created)='created()'
+                    [editSettings]="editSettingsTree"
+                    [contextMenuItems]='contextMenuItems'
+                    (actionBegin)="actionBegin($event)"
+                    [toolbar]='toolbarOptionsTree'
+                    childMapping="childNodes"
+                    allowExcelExport='true'
+                    allowPdfExport='true'
+                    (queryCellInfo)='queryCellInfo($event)'
+                    (rowDataBound)='rowDB($event)'
+                    (rowSelected)="rowSelected($event)"
+      >
+        <e-columns>
+          <e-column field="entity.level" textAlign='Center' width="80" [allowEditing]= 'false' isPrimaryKey="true" headerText="Level">
+          </e-column>
+          <e-column field="entity.title" textAlign='Left' headerText="Glue Type"> </e-column>
+          <e-column field="entity.method" textAlign='Center' headerText="Method">
+            <ng-template #editTemplate let-data>
+              <ejs-dropdownlist [dataSource]='methods' [fields]='fields' [value]="data.method" [allowFiltering]='true'
+                (change)='onChangeMethod($event)'>
+              </ejs-dropdownlist>
+            </ng-template>
+          </e-column>
+          <e-column field="entity.minutes" textAlign='Center' headerText="Minutes">
+            <ng-template #template let-data>
+              {{data.entity.minutes}} minutes
+            </ng-template>
+          </e-column>
+          <e-column field="entity.rpm" textAlign='Center' headerText="RPM/Cycle"> </e-column>
+        </e-columns>
+      </ejs-treegrid>
+    </div>
+    <!-- /.card-body -->
+  </div>
+</div>

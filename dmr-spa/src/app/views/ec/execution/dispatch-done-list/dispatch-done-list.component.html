@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'Dispatch' | translate}} {{title}} </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body p-0">
+
+  <ejs-grid #dispatchGrid [dataSource]='data' [allowSelection]='true' [allowSorting]='true' [allowSorting]='true'
+    [toolbar]='toolbarOptions' [sortSettings]="sortSettings" allowResizing='true' gridLines='Both'
+    [editSettings]='editSettings' (actionBegin)="actionBegin($event)" (actionComplete)="actionComplete($event)"
+    (toolbarClick)='toolbarClick($event)'>
+    <e-columns>
+      <e-column field='lineName' headerText='Line' textAlign='Center' width='100'>
+        <ng-template #headerTemplate let-data>
+          <span>{{'Line' | translate}}</span>
+        </ng-template>
+        <ng-template let-data #editTemplate>
+          {{data.lineName}}
+        </ng-template>
+      </e-column>
+      <e-column field='amount' headerText='Amount' textAlign='Center' width='100'>
+        <ng-template #headerTemplate let-data>
+          {{'Amount' | translate}} (g)
+        </ng-template>
+        <ng-template #template let-data>
+          {{data.amount }}
+        </ng-template>
+      </e-column>
+      <e-column field='time' headerText='Time' textAlign='Center' width='100'>
+        <ng-template #headerTemplate let-data>
+          {{'Time' | translate }}
+        </ng-template>
+        <ng-template #template let-data>
+          {{data.deliveryTime === null ? '-' : data.deliveryTime | date: 'HH:mm' }}
+        </ng-template>
+        <ng-template #editTemplate let-data>
+          {{data.deliveryTime === null ? '-' : data.deliveryTime | date: 'HH:mm' }}
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+<div class="modal-footer justify-content-center d-flex">
+  <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="fa fa-save"></i>
+    {{'SAVE' | translate}}</button>
+</div>

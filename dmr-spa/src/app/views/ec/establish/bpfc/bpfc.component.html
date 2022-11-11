@@ -1,0 +1,72 @@
+<div class="card">
+
+  <div class="card-body p-0">
+    <div class="row">
+      <div class="col-md-12">
+        <ejs-grid #grid [dataSource]='data' allowSorting='true' allowResizing='true' allowPaging="true"
+          [pageSettings]='pageSettings' allowFiltering='true' [filterSettings]='filterSettings'
+          [editSettings]='editSettings' [toolbar]='toolbar' [allowExcelExport]='true' allowResizing='true'
+          gridLines='Both' showColumnMenu='true' (toolbarClick)='toolbarClick($event)'
+          (actionBegin)='actionBegin($event)'>
+          <e-columns>
+            <e-column field='#' isPrimaryKey='true' textAlign='Center' headerText='#' width=40>
+              <ng-template let-data #template>{{NO(data.index)}}</ng-template>
+            </e-column>
+            <e-column field='modelName' isPrimaryKey='true' textAlign='Center' headerText='Model Name' width=130>
+            </e-column>
+            <e-column field='modelNo' isPrimaryKey='true' textAlign='Center' headerText='Model NO' width=80>
+            </e-column>
+            <e-column field='articleNo' isPrimaryKey='true' textAlign='Center' headerText='Article NO' width=80>
+            </e-column>
+            <e-column field='artProcess' isPrimaryKey='true' textAlign='Center' headerText='Process' width=80>
+            </e-column>
+            <e-column field='finishedStatus' isPrimaryKey='true' textAlign='Center' headerText='Status' width=80>
+              <ng-template #template let-data>
+                <ng-container *ngIf="data.finishedStatus == true; else elseTemplate">
+                  <span>Done</span>
+                </ng-container>
+                <ng-template #elseTemplate>
+                  <span><i style="color: red; font-size: 20px;" class="fas fa-exclamation-circle"></i> Undone</span>
+                </ng-template>
+              </ng-template>
+            </e-column>
+            <e-column field='createdDate' isPrimaryKey='true' type='date' format='d MMM, yyyy HH:mm'
+              headerText='Production Date' textAlign='Center' width=150></e-column>
+            <e-column field='' [visible]='true' isPrimaryKey='true' textAlign='Center' width=100 headerText='Option'>
+              <ng-template #template let-data>
+                <button ejs-button (click)="detail(data)" cssClass="e-info"><i class="far fa-edit"></i></button>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer"></div>
+</div>
+<ng-template #importModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> Import Excel
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="Name">Select File (*Notice: Excel file must be followed a system template. If you do not have a
+            template, please <a [href]="excelDownloadUrl">click here</a> to download. Thank you!)</label>
+          <input (change)="fileProgress($event)" name="file" type="file" class="form-control" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="uploadFile()">Upload File</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+
+</ng-template>

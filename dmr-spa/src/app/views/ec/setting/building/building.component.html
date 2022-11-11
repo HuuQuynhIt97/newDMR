@@ -1,0 +1,60 @@
+<div class="col-md-12">
+  <div class="card">
+    <!-- <div class="card-header">
+      <h3 class="card-title"><i class="fas fa-project-diagram"></i> Building List
+      </h3>
+    </div> -->
+    <!-- /.card-header -->
+
+    <div class="card-body table-responsive p-0">
+      <ejs-treegrid #treegrid [dataSource]="data"
+                    (contextMenuClick)='contextMenuClick($event)'
+                    (toolbarClick)='toolbarClick($event)'
+                    [treeColumnIndex]='1'
+                    allowSorting='true'
+                    gridLines='Both'
+                    (created)='created()'
+                    [editSettings]="editSettingsTree"
+                    [contextMenuItems]='contextMenuItems'
+                    (actionComplete)="actionComplete($event)"
+                    (actionBegin)="actionBegin($event)"
+                    [toolbar]='toolbarOptionsTree'
+                    childMapping="childNodes"
+                    allowExcelExport='true'
+                    allowPdfExport='true'
+                    (queryCellInfo)='queryCellInfoEvent($event)'
+      >
+        <e-columns>
+
+          <e-column field="entity.level" width="80" [allowEditing]= 'false' isPrimaryKey="true" headerText="{{'Level' | translate}}">
+          </e-column>
+
+          <e-column field="entity.name" headerText="{{'Name' | translate}}"> </e-column>
+
+          <e-column field='entity.buildingType.name' headerText='Building Type' textAlign='Center' width='150'>
+            <ng-template #headerTemplate let-data>
+              {{'Building Type' | translate}}
+            </ng-template>
+            <ng-template #editTemplate let-data>
+              <ejs-dropdownlist #kindDropdownlist [dataSource]='buildingTypeData' [value]="data.entity.buildingType?.id"
+                [fields]='fieldsBuildingType' [allowFiltering]='true' (change)='onChangeBuildingType($event)'>
+              </ejs-dropdownlist>
+            </ng-template>
+          </e-column>
+
+          <e-column field='entity.kindName' headerText='Kind' textAlign='Center' width='150'>
+            <ng-template #headerTemplate let-data>
+              {{'KIND' | translate}}
+            </ng-template>
+            <ng-template #editTemplate let-data>
+              <ejs-dropdownlist #kindDropdownlist *ngIf="data.entity.level === 3 && data.parent.buildingType?.id === 2" [dataSource]='kinds' [value]="data.entity.kindID" [fields]='fieldsKindEdit'
+                [allowFiltering]='true' (change)='onChangeKindEdit($event)'>
+              </ejs-dropdownlist>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-treegrid>
+    </div>
+    <!-- /.card-body -->
+  </div>
+</div>

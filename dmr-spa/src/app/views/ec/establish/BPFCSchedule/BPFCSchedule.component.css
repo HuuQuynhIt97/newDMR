@@ -1,0 +1,29 @@
+ /* .e-grid td.e-active {
+        background: #6597ce!important;
+        color: #000;
+    } */
+.active-btn {
+    background-color: #00000073 !important;
+    color: white !important;
+}
+  .bgcolor td{
+      background-color: #fa7c7c;
+    }
+/* .my-active {
+  background: '#6c757d'!important;
+    box-shadow: '0 0 0 3px rgba(130, 138, 145, 0.5)'!important;
+    border: '1px solid #6c757d'!important;
+    margin: '0'!important;
+    border-color: '#6c757d'!important;
+    border-radius: '4px'!important;
+    color: '#fff'!important;
+}
+.my-inactive {
+   background: '#f8f9fa'!important;
+    box-shadow: 'none'!important;
+    border: 'none'!important;
+    margin: '0'!important;
+    border-color: '#f8f9fa'!important;
+    border-radius: 'none'!important;
+    color: '#495057'!important;
+} */

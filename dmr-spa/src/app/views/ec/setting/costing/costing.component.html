@@ -1,0 +1,53 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Chemical List</h3>
+  </div>
+  <div class="card-body">
+    <ejs-grid #ingredientGrid
+        id='grid'
+        rowHeight='38'
+        [dataSource]='data'
+        [allowSelection]='true'
+        [allowSorting]='true'
+        [allowExcelExport]='true'
+        [allowSorting]='true'
+        allowFiltering='true'
+        [filterSettings]='filterSettings'
+        [toolbar]='toolbarOptions'
+        showColumnMenu='true'
+        [pageSettings]='pageSettings'
+        allowPaging="true"
+        allowResizing='true'
+        gridLines='Both'
+        (recordDoubleClick)='onDoubleClick($event)'
+        [editSettings]='editSettings'
+        (actionBegin)="actionBegin($event)"
+        (actionComplete)="actionComplete($event)"
+        (toolbarClick)='toolbarClick($event)'>
+        <e-columns>
+          <e-column field='#' headerText='#' width='40'>
+            <ng-template let-data #template>
+              {{NO(data.index)}}
+            </ng-template>
+            <ng-template let-data #editTemplate>
+              #
+            </ng-template>
+          </e-column>
+          <e-column field='supplier' headerText='Supplier' textAlign='Center' width='100'></e-column>
+          <e-column field='name' headerText='Chemical' textAlign='Center' width='120'></e-column>
+          <e-column field='real' headerText='Real' textAlign='Center' width='100'>
+            <ng-template #template let-data>${{data.real}}</ng-template>
+          </e-column>
+          <e-column field='cbd' headerText='CBD' textAlign='Center' width='100'>
+            <ng-template #template let-data>${{data.cbd}}</ng-template>
+          </e-column>
+          <e-column field='createdDate' headerText='Created Date' textAlign='Center' type='dateTime'
+            format='dd MMM, yyyy HH:mm' width='180'>
+              <ng-template let-data #editTemplate>
+                {{data.createdDate | date: 'dd MMM, yyyy HH:mm'}}
+              </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+  </div>
+</div>

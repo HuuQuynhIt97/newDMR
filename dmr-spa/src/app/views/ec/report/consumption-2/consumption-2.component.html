@@ -1,0 +1,73 @@
+<ngx-spinner [fullScreen]="false" type="square-jelly-box" size="medium">
+  <p class="loading">Loading data...</p>
+</ngx-spinner>
+<div class="row pt-2">
+  <div class="col-md-12 ">
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="row my-3">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-1">
+                <div class="font-weight-bold">{{'FILTER_LABEL' | translate}}:</div>
+              </div>
+              <div class="col-md-3">
+                <ejs-datepicker [value]='startDate' (change)='startDateOnchange($event)' [(ngModel)]='startDate'>
+                </ejs-datepicker>
+              </div>
+              <div class="col-md-3">
+                <ejs-datepicker [value]='endDate' (change)='endDateOnchange($event)' [(ngModel)]='endDate'>
+                </ejs-datepicker>
+              </div>
+              <div class="col-md-2">
+                <ejs-dropdownlist #modelNameDropdownlist [dataSource]='buildings' [fields]='fieldsBuildings'
+                  [allowFiltering]='true' [value]="buildingID" (filtering)='onFilteringBuilding($event)'
+                  (change)='onChangeBuilding($event)' placeholder="Select a building">
+                </ejs-dropdownlist>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-sm btn-default" (click)='onClickDefault()'>
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ejs-grid #grid [dataSource]='data' id='grid'
+        [searchSettings]="searchSettings"
+        showColumnMenu='true'
+          allowPaging='true'
+          allowResizing='true'
+          gridLines='Both'
+          (dataBound)='dataBound()'
+          [toolbar]='toolbarOptions'
+          (queryCellInfo)='queryCellInfoEvent($event)'
+          (toolbarClick)='toolbarClick($event)'
+          [pageSettings]='pageSettings'>
+          <e-columns>
+            <e-column field='line' headerText='Line' width='80' textAlign='Center'></e-column>
+            <e-column field='modelName' headerText='ModelName' width='120' textAlign='Center'></e-column>
+            <e-column field='modelNo' headerText='ModelNo' width='100' textAlign='Center'></e-column>
+            <e-column field='articleNo' headerText='ArticleNo' width='100' textAlign='Center'></e-column>
+            <e-column field='process' headerText='Process' width='100' textAlign='Center'></e-column>
+            <e-column field='qty' headerText='Qty' width='100' textAlign='Center'></e-column>
+            <e-column field='glue' headerText='Glue' width='150' textAlign='Center'></e-column>
+            <e-column field='std' headerText='Std.(g)' width='100' textAlign='Center'></e-column>
+            <e-column field='mixingDate' headerText='Mixing Date' type='date' format='dd/MM/yyyy' width='100' textAlign='Center'>
+              <ng-template #template let-data>
+                {{data.mixingDate === "0001-01-01T00:00:00" ? 'N/A': data.mixingDate | date: 'dd/MM/yyyy'}}
+              </ng-template>
+            </e-column>
+            <e-column field='realConsumption' headerText='Real Consumption (g) pr.' width='100' textAlign='Center'>
+            </e-column>
+            <e-column field='diff' headerText='Diff' width='100' textAlign='Center'></e-column>
+            <e-column field='percentage' headerText='%' width='100' textAlign='Center'>
+              <ng-template #template let-data>{{data.percentage}} %</ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+
+    </div>
+  </div>
+</div>

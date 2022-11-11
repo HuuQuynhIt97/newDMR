@@ -1,0 +1,76 @@
+.e-icons .e-columnmenu {
+    color: #ffffff;
+}
+.e-tooltip-wrap .e-tip-content {
+     color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+}
+.e-headercelldiv {
+    font-size: 12px!important;
+}
+.e-grid .e-headercell ejs-tooltip {
+    font-weight: bold!important;
+}
+.cursor-pointer{
+  pointer-events: none !important;
+}
+
+.done, 
+.delay,
+.todo,
+.dispatch,
+.dispatch-delay {
+    background:  #545b62!important;
+    box-shadow: none!important;
+    color:  #f8f9fa!important;
+}
+
+.done > span ,
+.delay > span,
+.todo > span,
+.dispatch > span,
+.dispatch-delay > span
+{
+    color:  #f8f9fa!important;
+}
+#gridTodo > .e-grid .e-altrow,
+#gridDone > .e-grid .e-altrow
+ { 
+    background-color: #d6d8db!important; 
+} 
+
+.color-code-0 {
+ background-color: #DDEBF7;
+}
+
+.color-code-1 {
+ background-color: #FFF2CC;
+    
+}
+.color-code-2{
+ background-color: #E2EFDA;
+    
+}
+.color-code-3 {
+ background-color: #C9C9C9;
+    
+}
+.color-code-4 {
+    
+ background-color: #FCE4D6; /*lightorange*/
+}
+.color-code-5 {
+    background-color: lightpink;
+}
+.color-code-6 {
+    background-color: lightpink;
+}
+
+.color-code-abnormal {
+    background-color:  #a5a549;
+}
+
+.bgcolor td{
+  background-color: #a5a549;
+}

@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <!-- <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-users"></i> User List
+        </h3>
+      </div> -->
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <ejs-grid #grid
+          [dataSource]="userData"
+          [allowPaging]='true'
+          [allowResizing]='true'
+          [showColumnMenu]='true'
+          gridLines='Both'
+          [locale]='locale'
+          [pageSettings]='pageSettings'
+          [allowExcelExport]='true'
+          (rowSelected)='rowSelected($event)'
+        >
+          <e-columns>
+            <e-column field="ID" textAlign='Center' width="80" isPrimaryKey="true" headerText="ID">
+              <ng-template #template let-data>
+                {{NO(data.index)}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                #
+              </ng-template>
+            </e-column>
+            <e-column field="username" isPrimaryKey="true" textAlign='Center' headerText="{{'Username' | translate}}"> </e-column>
+            <e-column field="employeeID" isPrimaryKey="true" textAlign='Center' headerText="{{'Account' | translate}}"> </e-column>
+            <e-column field="role" textAlign='Center' isPrimaryKey="true" headerText="{{'Role' | translate}}">
+            </e-column>
+            <e-column field="building" textAlign='Center' headerText="{{'Building' | translate}}">
+              <ng-template #template let-data>
+                 <ejs-multiselect #multiSelectBuildings [dataSource]='data.buildingsData' (close)='closeBuilding(data.index)'
+                 (removing)='removingBuilding($event, data)' (select)="onSelectBuilding($event, data)" [(ngModel)]="data.buildings"
+                  [mode]='mode' [fields]='fieldsBuilding' [showDropDownIcon]='true'  placeholder='Select building'>
+                </ejs-multiselect>
+              </ng-template>
+            </e-column>
+            <e-column field="line" textAlign='Center' headerText="{{'Line' | translate}}">
+              <ng-template #template let-data>
+                <ejs-multiselect #multiSelectLines [dataSource]='data.linesData'  (close)='closeLine(data.index)'
+                 (removing)='removing($event, data)' (select)="onSelect($event, data)" [(ngModel)]="data.lines"
+                  selectedAll="selectedAll($event)" [selectAllText]='selectAllText'
+                  [mode]='mode' [fields]='fieldsLine'  [showDropDownIcon]='true'  placeholder='Select line'>
+                </ejs-multiselect>
+
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+</div>

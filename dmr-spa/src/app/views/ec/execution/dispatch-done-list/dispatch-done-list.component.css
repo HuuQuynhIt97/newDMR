@@ -1,0 +1,35 @@
+  .e-grid td.e-active {
+        background: #6597ce!important;
+        color: #000;
+    }
+table tbody tr td ,
+table tbody tr th ,
+table thead tr th {
+  text-align: center;
+}
+
+input.warning-focus {
+  animation: warning-frames .5s infinite;
+  color: black;
+  /* border: 1px solid #3CBC8D; */
+
+}
+input.lock {
+  pointer-events: none;
+}
+.new {
+  background-color: green;
+}
+input {
+  /* pointer-events: none; */
+  text-align: center;
+}
+@keyframes warning-frames {
+  from {background-color: #fade40;}
+  to {background-color:  #e7f70c;}
+}
+
+.e-grid .e-altrow
+ { 
+    background-color: #d6d8db; 
+} 

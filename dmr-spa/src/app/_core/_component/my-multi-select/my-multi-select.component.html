@@ -1,0 +1,21 @@
+<ng-select #combo [multiple]="true" [items]="optionItems" [closeOnSelect]="false" (change)="onSelectionChange($event)"
+  (blur)="onTouched()" placeholder="Select people" bindLabel="name" bindValue="id">
+
+  <ng-template ng-header-tmp let-items="items">
+    <input type="checkbox" (change)="toggleCheckAll($event)" />
+  </ng-template>
+
+  <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+    <div class="ng-value" *ngFor="let item of items | slice:0:2">
+      <span class="ng-value-label">{{item.name}}</span>
+      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+    </div>
+    <div class="ng-value" *ngIf="items.length > 2">
+      <span class="ng-value-label">{{items.length - 2}} more...</span>
+    </div>
+  </ng-template>
+
+  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" /> {{item.name}}
+  </ng-template>
+</ng-select>

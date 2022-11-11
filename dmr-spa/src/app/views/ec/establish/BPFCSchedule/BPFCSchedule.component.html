@@ -1,0 +1,214 @@
+<ngx-spinner [fullScreen]="true" type="square-jelly-box" size="medium">
+  <p class="loading">Loading data...</p>
+</ngx-spinner>
+
+
+<div class="card">
+  <!-- <div class="card-header">
+    <h3 class="card-title">BPFC Schedule</h3>
+  </div> -->
+  <div class="card-body p-0">
+    <div class="row">
+      <div class="col-md-12">
+        <ejs-grid #grid id='grid' [dataSource]='data' allowSorting='true' allowResizing='true' allowPaging="true"
+          (rowDataBound)='rowDB($event)' [pageSettings]='pageSettings' allowFiltering='true'
+          [filterSettings]='filterSettings' [sortSettings]="sortSettings" [editSettings]='editSettings'
+          [toolbar]='toolbarOptions' [allowExcelExport]='true' allowResizing='true' (created)="createdSearch($event)"
+          gridLines='Both' showColumnMenu='true' (dataBound)='dataBound($event)' (toolbarClick)='toolbarClick($event)'
+          (actionBegin)='actionBegin($event)' [searchSettings]='searchOptions'>
+          <e-columns>
+            <e-column field='#' isPrimaryKey='true' textAlign='Center' headerText='#' width=40>
+              <ng-template let-data #template>{{NO(data.index)}}</ng-template>
+            </e-column>
+            <e-column field='modelName' isPrimaryKey='true' textAlign='Left' headerText='Model Name'>
+              <ng-template #template let-data>
+                <ejs-tooltip #tooltip class="fix-css" position='RightCenter'
+                  (beforeRender)="onBeforeRender($event, data, data.index)" content="loading...">
+                  {{data.modelName}}
+                </ejs-tooltip>
+              </ng-template>
+            </e-column>
+            <e-column field='modelNo' isPrimaryKey='true' textAlign='Center' width=100 headerText='Model NO'>
+            </e-column>
+            <e-column field='articleNo' isPrimaryKey='true' textAlign='Center' width=150 headerText='Article NO'>
+            </e-column>
+            <e-column field='artProcess' isPrimaryKey='true' textAlign='Center' width=100 headerText='Process'>
+            </e-column>
+            <e-column field='dueDate' textAlign='Center' editType='datepickeredit' type='date' format='d MMM, yyyy'
+              width=150 headerText='STF Date'>
+              <ng-template #template let-data>
+                {{data.artProcess === 'ASY' ? 'N/A': data.dueDate | date: 'd MMM, yyyy'}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <div *ngIf="data.artProcess === 'STF'; else stf">
+                  <ejs-datepicker [value]='data.dueDate' (change)='onChangeDueDate($event)' placeholder='Enter date'>
+                  </ejs-datepicker>
+                </div>
+                <ng-template #stf>
+                  {{data.artProcess === 'ASY' ? 'N/A': data.dueDate | date: 'd MMM, yyyy'}}
+                </ng-template>
+              </ng-template>
+            </e-column>
+            <e-column field='createdDate' isPrimaryKey='true' type='date' format='d MMM, yyyy HH:mm'
+              headerText='Update Time' textAlign='Center'>
+            </e-column>
+            <e-column field='approvedBy' isPrimaryKey='true' textAlign='Center' width=150
+              headerText='Approval By Supervisor'>
+            </e-column>
+            <e-column field='season' textAlign='Center' width=100 headerText='Season'></e-column>
+            <e-column field='' [visible]='true' isPrimaryKey='true' textAlign='Center' headerText='-- Option --'
+              width=170>
+              <ng-template #template let-data>
+                <!-- detail btn -->
+                <button ejs-button (click)="detail(data)" cssClass="e-info mr-2" appPermission appFunction="BPFC Schedule" appAction="EDIT"><i class="far fa-edit"></i></button>
+
+                <!--  new version -->
+                <button ejs-button *ngIf="data.finishedStatus === true" appPermission appFunction="BPFC Schedule" appAction="CREATE" (click)='openModal(newVersionModal,data)'
+                  cssClass="e-primary mr-2"><i class="fa fa-plus"></i></button>
+
+                <!-- clone -->
+                <button ejs-button *ngIf="data.finishedStatus === false" (click)='openModalClone(cloneModal,data)' appPermission appFunction="BPFC Schedule" appAction="CLONE"
+                  cssClass="e-success mr-2"><i class="fa fa-clone"></i></button>
+
+                <!-- remove -->
+                <button ejs-button cssClass="e-danger" (click)='delete(data.id)' appPermission appFunction="BPFC Schedule" appAction="DELETE"><i
+                    class="fa fa-trash"></i></button>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer"></div>
+</div>
+
+<ng-template #importModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> Import Excel
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="Name">Select File (*Notice: Excel file must be followed a system template. If you do not have a
+            template, please <a [href]="excelDownloadUrl">click here</a> to download. Thank you!)</label>
+          <input (change)="fileProgress($event)" name="file" type="file" class="form-control" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-primary" (click)="uploadFile()">Upload File</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+
+</ng-template>
+
+<ng-template #newVersionModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> New Version BPFC
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="Name">Model Name</label>
+          <input type="text" name="" disabled class="form-control" [value]="modelName" required="required" title="">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="Name">Model NO</label>
+          <input type="text" name="" disabled class="form-control" [value]="modelNo" required="required" title="">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="Name">Article NO</label>
+          <span style="color:red">(*)</span>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon3">{{articleNoDefault}}</span>
+            </div>
+            <input type="text" class="form-control" id="basic-url" [(ngModel)]="value" placeholder="Enter Version Ex: 1"
+              aria-describedby="basic-addon3">
+          </div>
+          <!-- <input type="text" name="" id="input" class="form-control" [(ngModel)]="articleNoNew" [value]="articleNo"
+            required="required" title=""> -->
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="Name">Process</label>
+          <input type="text" name="" disabled class="form-control" [value]="artProcess" required="required" title="">
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="submit" (click)='onClickCloneNewVersion()' class="btn btn-primary">Copy</button>
+  </div>
+</ng-template>
+
+<ng-template #cloneModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> Clone BPFC
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="Name">Model Name</label>
+          <input type="text" name="" disabled class="form-control" [value]="modelName" required="required" title="">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="Name">Model NO</label>
+          <input type="text" name="" disabled class="form-control" [value]="modelNo" required="required" title="">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="Name">Article NO</label>
+          <span style="color:red">(*)</span>
+          <ejs-dropdownlist #modelNameDropdownlist (open)='openPopupDropdownlist()' class="w-100 float-left"
+            [dataSource]='articleNosData' [fields]='fieldsBPFCs' [allowFiltering]='true' [(ngModel)]="articleNoID"
+            (filtering)='onFilteringArticleNO($event)' (select)='onChangeArticleNo($event)'
+            placeholder="Select article NO   ">
+          </ejs-dropdownlist>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="Name">Process</label>
+          <input type="text" name="" disabled class="form-control" [value]="artProcess" required="required" title="">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="submit" (click)='onClickClone()' class="btn btn-primary">Copy</button>
+  </div>
+</ng-template>

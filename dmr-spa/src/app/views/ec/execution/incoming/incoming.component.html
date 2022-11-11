@@ -1,0 +1,203 @@
+<ngx-spinner [fullScreen]="true" type="square-jelly-box" size="medium">
+  <p class="loading">Loading data...</p>
+</ngx-spinner>
+<div class="card">
+  <!-- <div class="card-header">
+    <h3>{{'INCOMING_LABEL' | translate}}</h3>
+  </div> -->
+
+  <div class="card-body">
+    <div class="row mb-2">
+      <div class="col-md-12 d-flex justify-content-center align-items-center">
+        <h2 class="font-weight-bold pr-3">{{'Building' | translate}}:</h2>
+        <ejs-dropdownlist #ddlelement [dataSource]='buildings' [fields]='fieldsBuildings' [allowFiltering]='true'
+          [value]='buildingID' (filtering)='onFilteringBuilding($event)' (change)='onChangeBuilding($event)'
+          placeholder="Select a building">
+        </ejs-dropdownlist>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <form class="w3-container w3-card-4  w3-text-black ">
+          <h2 class="w3-center">Scan QR Code</h2>
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:100px">
+              <img src="../../../../assets/img/gif/1981.gif" height="40px" width="80%" alt="">
+            </div>
+            <div class="w3-rest">
+              <!-- [autofocusSearch]="true" -->
+              <input [ngClass]="test" name="qrcode" autocomplete="off" (messageEvent)="receiveMessage($event)" autofocusSearch [ngModel]="qrcodeChange"
+                (ngModelChange)='onNgModelChangeScanQRCode($event)' type="text">
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt-4 text-center">
+                <div style="font-size: 30px;" class="pretty p-icon p-round">
+                  <input (change)='InputChange($event)' type="radio" checked name="icon_solid" />
+                  <div class="state p-success">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>{{'INPUT_LABEL' | translate}}</label>
+                  </div>
+                </div>
+
+                <div style="font-size: 30px;" class="pretty p-icon p-round">
+                  <input (change)='OutputChange($event)' type="radio" name="icon_solid" />
+                  <div class="state p-danger">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>{{'OUTPUT_LABEL' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <ejs-grid #ingredientinfoGrid  [dataSource]='data' (dataBound)='dataBound()'
+          [allowExcelExport]='true' [allowSorting]='true'  allowResizing='true' allowFiltering='true' [filterSettings]='filterSettings'
+          [toolbar]='toolbarOptions' showColumnMenu='true' [pageSettings]='pageSettings'
+          allowPaging="true" gridLines='Both' (toolbarClick)='toolbarClick($event)'>
+          <e-columns>
+            <!-- <e-column field='#' headerText='#' width='40'>
+            <ng-template let-data #template>
+              {{NO(data.index)}}
+            </ng-template>
+          </e-column> -->
+            <e-column field='createdTime' textAlign='Center' headerText='Time' width='150'>
+              <ng-template #headerTemplate>
+                {{'TIME_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.createdTime | date:'dd MMM, yyyy , HH:mm'}}
+              </ng-template>
+
+            </e-column>
+
+            <e-column field='supplierName' textAlign='Center' headerText='Supplier' width='120'>
+              <ng-template #headerTemplate>
+                {{'SUPPLIER' | translate}}
+              </ng-template>
+            </e-column>
+              <e-column field='code' textAlign='Center' headerText='Material #' width='120'>
+                <ng-template #headerTemplate>
+                  {{'Material #' | translate}}
+                </ng-template>
+              </e-column>
+
+
+            <e-column field='name' textAlign='Center' headerText='Ingredient' width='100'>
+              <ng-template #headerTemplate>
+                {{'INGREDIENT_LABEL' | translate}}
+              </ng-template>
+
+            </e-column>
+
+            <e-column field='manufacturingDate' textAlign='Center' headerText='Production date' width='130'>
+              <ng-template #headerTemplate>
+                {{'PRODUCTION_DATE_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.manufacturingDate | date:'dd MMM, yyyy'}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='batch' textAlign='Center' headerText='Batch' width='100'>
+              <ng-template #headerTemplate>
+                {{'BATCH_LABEL' | translate}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='expiredTime' textAlign='Center' headerText='Expired Date' width='130'>
+              <ng-template #headerTemplate>
+                {{'EXPIRED_DATE_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.expiredTime | date:'dd MMM, yyyy'}}
+              </ng-template>
+            </e-column>
+
+            <e-column field='qty' textAlign='Center' headerText='Recieve Qty (Kg)' width='130'>
+              <ng-template #headerTemplate>
+                {{'QTY_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                {{data.qty}} Kg
+              </ng-template>
+            </e-column>
+
+            <e-column field='status' textAlign='Center' headerText='Status' width='100'>
+              <ng-template #headerTemplate>
+                {{'STATUS_LABEL' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                <ng-container *ngIf="data.status === true; else elseTemplate">
+                  <span class="badge badge-secondary">{{'OUTOFSTOCK_LABEL' | translate}}</span>
+                </ng-container>
+                <ng-template #elseTemplate>
+                  <span class="badge badge-success">{{'STOCKING_LABEL' | translate}}</span>
+                </ng-template>
+
+              </ng-template>
+
+            </e-column>
+
+            <e-column field='Option' textAlign='Center' headerText='Option' width='90'>
+              <ng-template #headerTemplate>
+                {{'OPTION' | translate}}
+              </ng-template>
+              <ng-template #template let-data>
+                <div class="btn-group">
+                  <button type="button" (click)='delete(data)' class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+                </div>
+              </ng-template>
+
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+        <!-- <table class="table table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th style="text-align: center;" scope="col">{{'TIME_LABEL' | translate}}</th>
+              <th style="text-align: center;" scope="col">{{'SUPPLIER' | translate}}</th>
+              <th style="text-align: center;" scope="col">{{'INGREDIENT_LABEL' | translate}}</th>
+              <th style="text-align: center;" scope="col">{{'PRODUCTION_DATE_LABEL' | translate}}</th>
+              <th style="text-align: center;" scope="col">{{'BATCH_LABEL' | translate}}</th>
+              <th style="text-align: center;" scope="col">{{'EXPIRED_DATE_LABEL' | translate}}</th>
+              <th style="text-align: center;" scope="col">{{'QTY_LABEL' | translate}}</th>
+              <th style="text-align: center;" scope="col">{{'STATUS_LABEL' | translate}}</th>
+              <th style="text-align: center;" scope="col">{{'OPTION' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data; let i=index">
+              <th scope="row" style="text-align: center;">{{item.createdTime | date:'dd MMM, yyyy , HH:mm'}}</th>
+              <td style="text-align: center;">{{item.supplierName}}</td>
+              <td style="text-align: center;">{{item.name }}</td>
+              <td style="text-align: center;">{{item.manufacturingDate | date:'dd MMM, yyyy'}}</td>
+              <td style="text-align: center;">{{item.batch}}</td>
+              <td style="text-align: center;">{{item.expiredTime | date:'dd MMM, yyyy'}}</td>
+              <td style="text-align: center;">{{item.qty}} KG</td>
+              <td style="text-align: center;">
+                <ng-container *ngIf="item.status === true; else elseTemplate">
+                  <span class="badge badge-secondary">{{'OUTOFSTOCK_LABEL' | translate}}</span>
+                </ng-container>
+                <ng-template #elseTemplate>
+                  <span class="badge badge-success">{{'STOCKING_LABEL' | translate}}</span>
+                </ng-template>
+              </td>
+              <td style="text-align: center;">
+                <button (click)="delete(item)" type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
+    </div>
+  </div>
+</div>

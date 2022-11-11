@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+              <h5 class="card-title">Module List</h5>
+              <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                  </button>
+              </div>
+          </div>
+
+      <ejs-grid #grid (actionBegin)="actionBegin($event)" gridLines='Both' (actionComplete)="actionComplete($event)"
+        [toolbar]='toolbarOptions' [dataSource]='data' allowPaging='true' [allowSorting]='true' allowResizing='true'
+        showColumnMenu='true' [allowExcelExport]='true' allowFiltering='true' [filterSettings]='filterSettings'
+        [pageSettings]='pageSettings' (toolbarClick)='toolbarClick($event)' [editSettings]='editSettings'>
+        <e-columns>
+          <e-column field='id' headerText='#' width='70' textAlign='Center' isPrimaryKey='true'>
+            <ng-template #template let-data>
+              {{NO(data.index)}}
+            </ng-template>
+          </e-column>
+          <e-column field='name' headerText='Module Name' width='200' textAlign='Center'>
+          </e-column>
+            <e-column field='sequence' headerText='Sequence' width='200' textAlign='Center'>
+            </e-column>
+        </e-columns>
+      </ejs-grid>
+
+    </div>
+  </div>
+</div>

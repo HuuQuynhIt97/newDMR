@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <h4 class="modal-title">Print glue name: {{value?.glueName}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0">
+  <div class="row py-2" *ngIf="isShowQRCode">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <input class="form-control form-control-lg rounded-pill" *ngIf="isShow" [(ngModel)]="qrCode" autoselect
+        (ngModelChange)='onNgModelChangeScanQRCode($event)' placeholder="Scan QR Code" type="text">
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <div class="row" *ngIf="isShowQRCode">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-left" *ngIf="!isShow">
+      <div class='center '>
+          <!-- <ejs-qrcodegenerator #barcode style="display: block;" id='qrcode' #barcode width="100px" height="130px"
+            [displayText]='displayTextMethod' mode="SVG" [value]="data?.code"></ejs-qrcodegenerator> -->
+
+            <qrcode [qrdata]="data?.code" [allowEmptyString]="true" [margin]='1' [elementType]="'svg'" id='qrcode' [width]="100" [errorCorrectionLevel]="'H'"></qrcode>
+      </div>
+      <div><label>Name:</label> {{data?.glueName}}</div>
+      <div><label>QrCode:</label> {{data?.code}}</div>
+      <div><label>Batch:</label> {{chemicalA?.batch}}</div>
+      <div><label>MFG:</label> {{data?.createdTime | date: 'yyyyMMdd HH:mm'}}</div>
+      <div><label>EXP:</label> {{data?.expiredTime | date: 'yyyyMMdd HH:mm'}}</div>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+  <div class="row" *ngIf="isShowQRCode === false">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-left">
+      <div class='center '>
+        <!-- <ejs-qrcodegenerator #barcode style="display: block;" id='qrcode' #barcode width="100px" height="130px"
+          [displayText]='displayTextMethod' mode="SVG" [value]="data?.code"></ejs-qrcodegenerator> -->
+
+          <qrcode [qrdata]="data?.code" [allowEmptyString]="true" [margin]='1' [elementType]="'svg'" id='qrcode' [width]="100" [errorCorrectionLevel]="'H'"></qrcode>
+      </div>
+      <div><label>Name:</label> {{data?.glueName}}</div>
+      <div><label>QrCode:</label> {{data?.code}}</div>
+      <div><label>Batch:</label> {{chemicalA?.batch}}</div>
+      <div><label>MFG:</label> {{data?.createdTime | date: 'yyyyMMdd HH:mm'}}</div>
+      <div><label>EXP:</label> {{data?.expiredTime | date: 'yyyyMMdd HH:mm'}}</div>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+<div class="modal-footer justify-content-between">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" (click)='printData()' class="btn btn-outline-dark"> <i class="fa fa-print"></i> Print</button>
+</div>

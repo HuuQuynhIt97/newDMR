@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <!-- <div class="card-header">
+              <h5 class="card-title">Mailing List</h5>
+              <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                  </button>
+              </div>
+          </div> -->
+
+      <ejs-grid #grid id='grid' (actionBegin)="actionBegin($event)" gridLines='Both' (actionComplete)="actionComplete($event)"
+        [toolbar]='toolbarOptions' [dataSource]='data' allowPaging='true' [allowSorting]='true' allowResizing='true'
+        showColumnMenu='true' [allowExcelExport]='true' allowFiltering='true' [filterSettings]='filterSettings'
+        [pageSettings]='pageSettings' (toolbarClick)='toolbarClick($event)' [editSettings]='editSettings'>
+        <e-columns>
+          <e-column field='id' headerText='#' width='50' textAlign='Center' isPrimaryKey='true'>
+            <ng-template #template let-data>
+              {{NO(data.index)}}
+            </ng-template>
+          </e-column>
+          <e-column field='report' headerText='Report'  isPrimaryKey='true' width='100' textAlign='Center'>
+            <ng-template #editTemplate let-data>
+            <ejs-dropdownlist id='reportOption' [dataSource]="reportOption" (change)='onReport($event)' [value]='reportItem'></ejs-dropdownlist>
+            </ng-template>
+          </e-column>
+          <e-column field='frequency' headerText='Frequency' isPrimaryKey='true' width='100' textAlign='Center'>
+            <ng-template #editTemplate let-data>
+              <ejs-dropdownlist id='frequencyOption' [dataSource]="frequencyOption" (change)='onFrequency($event)'
+                [value]='frequencyItem'></ejs-dropdownlist>
+            </ng-template>
+          </e-column>
+          <e-column field='timeSend' headerText='Time Send' width='100' textAlign='Center'>
+              <ng-template #template let-data>
+                {{data.timeSend | date: 'HH:mm'}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <kendo-timepicker *ngIf="frequencyItem === 'Daily'" style="width: 150px;" (valueChange)="onChangeTimeSend($event)"
+                  [value]="data.timeSend" [format]="'hh:mm a'"></kendo-timepicker>
+
+                  <ejs-datetimepicker *ngIf="frequencyItem !== 'Daily'" (change)="onChangeDatetimeSend($event)" [value]='data.timeSend' placeholder='Enter date time'></ejs-datetimepicker>
+              </ng-template>
+          </e-column>
+          <e-column field='userNames' headerText='Recipient' textAlign='Left'>
+            <ng-template #template let-data>
+              {{data?.userNames?.join(', ')}}
+            </ng-template>
+            <ng-template #editTemplate let-data>
+              <ejs-multiselect [dataSource]='userData' (removing)='removing($event)' (select)="onSelectUsername($event)" [mode]='box' [value]="data.userIDList" [fields]='fields' placeholder='Select Username'>
+              </ejs-multiselect>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+
+    </div>
+  </div>
+</div>

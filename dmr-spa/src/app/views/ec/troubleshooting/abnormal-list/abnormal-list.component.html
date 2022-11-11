@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <!-- <div class="card-header">
+        <h3>Setting</h3>
+      </div> -->
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <ejs-dropdownlist #ingredientDropdownlist class="w-100 float-left" [dataSource]='IngredientData'
+              [fields]='fieldsIngredient' [allowFiltering]='true' [(ngModel)]="ingredientID"
+              (filtering)='onFilteringIngredientName($event)' (change)='onChangeIngredientName($event)'
+              placeholder="Select a Ingredient Name">
+            </ejs-dropdownlist>
+          </div>
+          <div class="col-md-6">
+              <ejs-dropdownlist #batchDropdownlist class="w-100 float-left" [dataSource]='batches' [fields]='fieldsBatch'
+                [allowFiltering]='true' [(ngModel)]="ingredientID" (filtering)='onFilteringBatch($event)'
+                (change)='onChangeBatch($event)' placeholder="Select a batch">
+              </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <ejs-grid #buildingGrid
+             (rowDeselected)=rowDeselected($event)
+             [dataSource]='buildings' rowHeight='38'
+              [allowSelection]='true'
+              [allowSorting]='true' height='300'
+              (rowDeselected)='rowDeselected($event)'
+              (rowSelected)='rowSelected($event)'
+              [allowSorting]='true'>
+              <e-columns>
+                <e-column type='checkbox' isPrimaryKey='true' width='60'></e-column>
+                <e-column field='name' isPrimaryKey='true' headerText='Building' width='130'></e-column>
+              </e-columns>
+            </ejs-grid>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-12 text-center">
+           <button appPermission appFunction="Black List" appAction="LOCK" class="btn btn-info" (click)="lock()"><i class="fa fa-lock"></i> Lock</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h3>Black List</h3>
+      </div>
+      <div class="card-body">
+          <ejs-grid #abnormalGrid
+              (rowDeselected)=rowDeselected($event)
+              [dataSource]='abnormals' rowHeight='38'
+              [allowSelection]='true'
+              [allowFiltering]='true'
+              showColumnMenu='true'
+              value='Menu'
+              height='300'
+              (rowDeselected)='rowDeselected($event)'
+              (rowSelected)='rowSelected($event)'
+              [toolbar]='toolbarOptions'
+              [filterSettings]='filterSettings'
+              [allowSorting]='true'>
+              <e-columns>
+                <e-column field='ingredient' isPrimaryKey='true' textAlign='Center' headerText='Ingredient' width='130'></e-column>
+                <e-column field='batch' isPrimaryKey='true' textAlign='Center' headerText='Batch' width='90'></e-column>
+                <e-column field='building' isPrimaryKey='true' textAlign='Center' headerText='Building' width='90'></e-column>
+                <e-column field='lockBy' isPrimaryKey='true' textAlign='Center' headerText='Lock By' width='130'></e-column>
+                <e-column field='createdDate' isPrimaryKey='true' textAlign='Center' type='dateTime' format='d MMM, yyyy HH:mm' headerText='Lock Date' width='190'></e-column>
+                <e-column field='' headerText='Option' textAlign='Center' width='80'>
+                  <ng-template let-data #template>
+                      <button  appPermission appFunction="Black List" appAction="UNLOCK" type="button" (click)='unlock(data)' class="btn btn-xs btn-danger"><i class="fa fa-unlock"></i></button>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+      </div>
+    </div>
+  </div>
+</div>
+

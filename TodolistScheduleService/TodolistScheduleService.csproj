@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>dotnet-TodolistScheduleService-F4D2FF13-C2D9-4DFF-92ED-9EB891B865C7</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.SignalR.SelfHost" Version="2.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.3.2" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="QuartzExtention">
+      <HintPath>..\QuartzExtention.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalRExtension">
+      <HintPath>D:\a_2021\project\SignalRExtension\SignalRExtension\bin\Release\netcoreapp3.1\SignalRExtension.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,157 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <!-- <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-users"></i> User List
+        </h3>
+      </div> -->
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <ejs-grid #grid
+          id='grid'
+          [dataSource]="userData"
+          [allowPaging]='true'
+          [allowResizing]='true'
+          [showColumnMenu]='true'
+          gridLines='Both'
+          [locale]='locale'
+          (created)='createdUsers()'
+          (dataBound)='dataBound()'
+          (actionBegin)="actionBegin($event)"
+          (actionComplete)="actionComplete($event)"
+          [toolbar]='toolbarOptions'
+          [pageSettings]='pageSettings'
+          [allowExcelExport]='true'
+          (queryCellInfo)='tooltip($event)'
+          (recordDoubleClick)='onDoubleClick($event)'
+          (toolbarClick)='toolbarClick($event)'
+          [editSettings]='editSettings'
+        >
+          <e-columns>
+            <e-column field="ID" textAlign='Center' width="80" isPrimaryKey="true" headerText="ID">
+              <ng-template #template let-data>
+                {{NO(data.index)}}
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                #
+              </ng-template>
+            </e-column>
+            <e-column field="username" textAlign='Center' headerText="{{ 'Username' | translate}}"> </e-column>
+            <e-column field="employeeID" textAlign='Center' headerText="{{ 'Account' | translate}}"> </e-column>
+            <e-column field="password" textAlign='Center' headerText="{{ 'Password' | translate}}">
+              <ng-template #template let-data>
+                ************
+              </ng-template>
+            </e-column>
+            <e-column field="email" textAlign='Center' headerText="Email"> </e-column>
+            <e-column field="role" textAlign='Center' headerText="{{ 'Role' | translate}}">
+              <ng-template #editTemplate let-data>
+                <ejs-dropdownlist #positionDropdownlist [dataSource]='roles' [value]="data.role"
+                  [fields]='fieldsRole' [allowFiltering]='true'
+                  (change)='onChangeRole($event,data)'>
+                </ejs-dropdownlist>
+              </ng-template>
+            </e-column>
+            <e-column field="option" width="100" textAlign='Center' headerText="{{ 'Option' | translate}}">
+              <ng-template #template let-data>
+                <div class="btn-group">
+                  <button type="button" *ngIf="data.isLock" (click)='lock(data)' class="btn btn-xs btn-danger"><i class="fa fa-lock"></i></button>
+                </div>
+                <div class="btn-group">
+                  <button type="button" *ngIf="!data.isLock" (click)='lock(data)' class="btn btn-xs btn-success"><i class="fa fa-unlock"></i></button>
+                </div>
+                <!-- <div class="btn-group ml-2" *ngIf="data.role === 'Dispatcher' && data.building !== '#N/A'">
+                  <button type="button" (click)='showLineModal(lineModal, data)' class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></button>
+                </div> -->
+                  <!-- <div class="btn-group ml-2" *ngIf="data.role === 'Worker'">
+                    <button type="button" (click)='showBuildingModal(buildingModal, data)' class="btn btn-xs btn-primary"><i
+                        class="fa fa-building"></i></button>
+                  </div> -->
+              </ng-template>
+              <ng-template #editTemplate let-data>
+                <div class="btn-group">
+                  <button type="button" appPermission appFunction="Account" appAction="EDIT" *ngIf="data.isLock" (click)='lock(data)' class="btn btn-xs btn-danger"><i
+                      class="fa fa-lock"></i></button>
+                </div>
+                <div class="btn-group">
+                  <button appPermission appFunction="Account" appAction="EDIT" type="button" *ngIf="!data.isLock" (click)='lock(data)' class="btn btn-xs btn-success"><i
+                      class="fa fa-unlock"></i></button>
+                </div>
+
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+</div>
+
+<ng-template #lineModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> Line Detail
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <ejs-grid [dataSource]='lines' #lineGrid rowHeight='38' height='300'
+          [allowSorting]='true'
+          [toolbar]='toolbarOptions'>
+          <e-columns>
+            <e-column type='#'  width='60'>
+              <ng-template #template let-data>
+                <ejs-checkbox #checkbox [checked]='data.status' (change)='checkboxChange($event, data)'></ejs-checkbox>
+              </ng-template>
+            </e-column>
+            <e-column field='name' textAlign='Center' headerText='Line Name' width='80'></e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+
+</ng-template>
+
+
+<ng-template #buildingModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fas fa-plus"></i> Building Detail
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <ejs-grid [dataSource]='buildings' #lineGrid rowHeight='38' height='300' [allowSorting]='true'
+           [toolbar]='toolbarOptions'>
+          <e-columns>
+            <e-column type='#' width='60'>
+              <ng-template #template let-data>
+                <ejs-checkbox #checkbox [checked]='data.status' (change)='checkboxChangeBuilding($event, data)'></ejs-checkbox>
+              </ng-template>
+            </e-column>
+            <e-column field='name' textAlign='Center' headerText='Building Name' width='80'></e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+
+</ng-template>

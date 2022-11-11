@@ -1,0 +1,86 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dmr-api", "dmr-api.csproj", "{A7CE2913-E3EF-4DF9-968D-757D4B1C1DF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodolistScheduleService", "..\TodolistScheduleService\TodolistScheduleService.csproj", "{00BC968F-1888-41AF-AD7E-6D7B0D577EE1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMR_Testing", "..\DMR_Testing\DMR_Testing.csproj", "{63D36039-BC39-424C-A5AF-16FAC3D9085C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeighingScaleEmulator", "..\WeighingScaleEmulator\WeighingScaleEmulator.csproj", "{EA114366-F910-4148-BA89-2C7459F3C6ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalrServer", "..\SignalrServer\SignalrServer.csproj", "{F12E6607-C872-4988-B749-07EAEB4E2F42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScalingMachineService", "..\ScalingMachineService\ScalingMachineService.csproj", "{9DE05B9E-16EF-4FB9-98CA-17BF0EC3DE5A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SetupWeighingScale", "..\SetupWeighingScale\SetupWeighingScale.csproj", "{A486F506-5611-4E3A-B3AC-D4EEFF138A3B}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "dmr-spa", "..\dmr-spa\", "{0EDC7926-4EE4-471E-9539-486DE75D0C7D}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_63083"
+		Debug.AspNetCompiler.PhysicalPath = "..\dmr-spa\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63083\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_63083"
+		Release.AspNetCompiler.PhysicalPath = "..\dmr-spa\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63083\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "63083"
+		SlnRelativePath = "..\dmr-spa\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7CE2913-E3EF-4DF9-968D-757D4B1C1DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7CE2913-E3EF-4DF9-968D-757D4B1C1DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7CE2913-E3EF-4DF9-968D-757D4B1C1DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7CE2913-E3EF-4DF9-968D-757D4B1C1DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00BC968F-1888-41AF-AD7E-6D7B0D577EE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00BC968F-1888-41AF-AD7E-6D7B0D577EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00BC968F-1888-41AF-AD7E-6D7B0D577EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00BC968F-1888-41AF-AD7E-6D7B0D577EE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63D36039-BC39-424C-A5AF-16FAC3D9085C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63D36039-BC39-424C-A5AF-16FAC3D9085C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63D36039-BC39-424C-A5AF-16FAC3D9085C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63D36039-BC39-424C-A5AF-16FAC3D9085C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA114366-F910-4148-BA89-2C7459F3C6ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA114366-F910-4148-BA89-2C7459F3C6ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA114366-F910-4148-BA89-2C7459F3C6ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA114366-F910-4148-BA89-2C7459F3C6ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12E6607-C872-4988-B749-07EAEB4E2F42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12E6607-C872-4988-B749-07EAEB4E2F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12E6607-C872-4988-B749-07EAEB4E2F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F12E6607-C872-4988-B749-07EAEB4E2F42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE05B9E-16EF-4FB9-98CA-17BF0EC3DE5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE05B9E-16EF-4FB9-98CA-17BF0EC3DE5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE05B9E-16EF-4FB9-98CA-17BF0EC3DE5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE05B9E-16EF-4FB9-98CA-17BF0EC3DE5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A486F506-5611-4E3A-B3AC-D4EEFF138A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A486F506-5611-4E3A-B3AC-D4EEFF138A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A486F506-5611-4E3A-B3AC-D4EEFF138A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A486F506-5611-4E3A-B3AC-D4EEFF138A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EDC7926-4EE4-471E-9539-486DE75D0C7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EDC7926-4EE4-471E-9539-486DE75D0C7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EDC7926-4EE4-471E-9539-486DE75D0C7D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EDC7926-4EE4-471E-9539-486DE75D0C7D}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB256B96-9727-4FBB-AE9E-F19EAF54B728}
+	EndGlobalSection
+EndGlobal
